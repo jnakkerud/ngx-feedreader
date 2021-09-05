@@ -6,7 +6,8 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MaterialModule } from './material.module';
-import { TopicModule } from './topic/topic.component';
+import { TopicModule } from './topic/topic.module';
+import { ConfigModule } from './config/config.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { TopicModule } from './topic/topic.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
-    TopicModule
+    TopicModule,
+    ConfigModule
   ],
   providers: [],
   bootstrap: [AppComponent]

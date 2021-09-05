@@ -1,1 +1,23 @@
-<p>topic works! {{topic}}</p>
+<div class="topic-container" [class.topic-is-mobile]="(isScreenSmall | async)">
+    <mat-toolbar color="primary" class="topic-toolbar">
+        <button mat-icon-button (click)="toggleSidenav()" *ngIf="(isScreenSmall | async)">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <h1>ngx feed reader</h1>
+    </mat-toolbar>
+    <mat-sidenav-container class="topic-sidenav-container">
+        <mat-sidenav #sidenav class="topic-sidenav" [opened]="(isScreenSmall | async) === false"
+            [mode]="(isScreenSmall | async) ? 'over' : 'side'">
+            <mat-nav-list>
+                <a mat-list-item [routerLink]="['/topic/', 'saved']"> Saved </a>
+                <mat-divider></mat-divider>
+                <a mat-list-item *ngFor="let topic of topics" [routerLink]="['/topic/', topic.name]">
+                    {{topic.name}}
+                </a>
+            </mat-nav-list>
+        </mat-sidenav>
+        <mat-sidenav-content>
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>

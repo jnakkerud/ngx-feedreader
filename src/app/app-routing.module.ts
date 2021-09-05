@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TopicComponent } from './topic/topic.component';
+import { ConfigComponent } from './config/config.component';
 
 const routes: Routes = [
-    { path: 'topic/:topicId', component: TopicComponent },
-    { path: '', redirectTo: 'topic/saved', pathMatch: 'full' },
+    { path: 'config', component: ConfigComponent },
+    {   path: 'topic',
+        loadChildren: () => import('./topic/topic.module').then(m => m.TopicModule)
+    },
+    { path: '', redirectTo: 'topic', pathMatch: 'full' },
     { path: '**', redirectTo: '' },
 ];
 @NgModule({
