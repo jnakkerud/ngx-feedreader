@@ -1,12 +1,24 @@
 import { Channel, Topic } from "./topic.service";
 
+function getChannel(el: Element): Channel {
+    return {
+        title: el.getAttribute('title') ?? 'Unknown',
+        htmlUrl: el.getAttribute('htmlUrl') ?? 'Unknown',
+        xmlUrl: el.getAttribute('xmlUrl') ?? 'Unknown'
+    }
+}
 export class OpmlReader {
 
     public read(xmlRaw: string): Topic[] {
+        // remove the xml declaration as it will cause a parser error
+        xmlRaw = xmlRaw.replace(/\<\?xml.+\?\>|\<\!DOCTYPE.+]\>/g, '');
+
         const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(xmlRaw, 'application/xml');
+        const xmlDoc = parser.parseFromString(xmlRaw, 'text/xml');
 
         let topics: Topic[] = [];
+
+        let unCategorizedChannels: Channel[] = [];
 
         const outlines = xmlDoc.getElementsByTagName('outline');
         for (let i = 0, max = outlines.length; i < max; i++) {
@@ -16,7 +28,18 @@ export class OpmlReader {
                     name: curr.getAttribute('title') ?? 'Unknown',
                     channels: this.channels(curr)
                 })
+            } else {
+                if (curr.hasAttribute('xmlUrl') && curr.parentElement?.tagName !== 'outline') {
+                    unCategorizedChannels.push(getChannel(curr));
+                }
             }
+        }
+
+        if (unCategorizedChannels.length > 0) {
+            topics.push({
+                name: 'Uncategorized',
+                channels: unCategorizedChannels
+            });
         }
 
         return topics;
@@ -25,13 +48,9 @@ export class OpmlReader {
     private channels(outline: Element): Channel[] {
         let channels: Channel[] = [];
         for (let i = 0; i < outline.children.length; i++) {
-            let channel: Channel = {
-                title: outline.children[i].getAttribute('title') ?? 'Unknown',
-                htmlUrl: outline.children[i].getAttribute('htmlUrl') ?? 'Unknown',
-                xmlUrl: outline.children[i].getAttribute('xmlUrl') ?? 'Unknown'
-            }
-            channels.push(channel);
+            channels.push(getChannel(outline.children[i]));
         }
         return channels;
     }
+
 }
