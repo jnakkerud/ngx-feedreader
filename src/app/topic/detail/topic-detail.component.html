@@ -1,1 +1,5 @@
-<div>Selected Topic {{topic?.name}}</div>
+<mat-selection-list [multiple]="false" (selectionChange)="onSelectionChange($event)">
+    <mat-list-option *ngFor="let channel of topic?.channels" [value]="channel">
+        {{channel.title}}
+    </mat-list-option>
+</mat-selection-list>

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { OpmlReader } from './OpmlReader';
-
 export interface Channel {
     title: string;
     xmlUrl: string;
@@ -11,21 +10,6 @@ export interface Topic {
     description?: string;
     channels?: Channel[];
 }
-
-const TEST_TOPICS = [
-    {
-        name: 'Skiing'
-    },
-    {
-        name: 'Development'
-    },
-    {
-        name: 'Housing'
-    },
-    {
-        name: 'Travel'
-    }
-]
 
 const TEST_OMPL = `
 <?xml version="1.0" encoding="UTF-8"?> 
@@ -70,6 +54,9 @@ const TEST_OMPL = `
 
 @Injectable({providedIn: 'root'})
 export class TopicService {
+
+    topics!: Topic[];
+
     constructor() { }
     
     public getTopics(): Topic[] {
@@ -80,14 +67,17 @@ export class TopicService {
 
         // local storage service: See https://jsstore.net/tutorial/get-started/
 
-        this.testParser();
-        return TEST_TOPICS;
+        if (!this.topics) {
+            const opmlReader = new OpmlReader();
+            this.topics = opmlReader.read(TEST_OMPL);
+        }
+
+
+        return this.topics;
     }
 
-    public testParser(): void {
-        const opmlReader = new OpmlReader();
-        let topics = opmlReader.read(TEST_OMPL);
-        console.log(topics);
+    public getTopic(name: string): Topic | undefined {
+        return this.getTopics().find(t => t.name === name);
     }
 
 }
