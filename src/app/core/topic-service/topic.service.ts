@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { OpmlReader } from './OpmlReader';
+import { OpmlReader } from './opml-reader';
 export interface Channel {
     title: string;
     xmlUrl: string;

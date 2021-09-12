@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatSelectionListChange } from '@angular/material/list';
 import { ActivatedRoute } from '@angular/router';
-import { ChannelService } from 'src/app/core/channel-service/channel.service';
+import { FeedService } from 'src/app/core/feed-service/feed.service';
 import { Channel, Topic, TopicService } from 'src/app/core/topic-service/topic.service';
 
 @Component({
@@ -14,7 +14,7 @@ export class TopicDetailComponent implements OnInit {
 
     @Input() topic?: Topic;
 
-    constructor(private route: ActivatedRoute, private topicService: TopicService, private channelService: ChannelService) { 
+    constructor(private route: ActivatedRoute, private topicService: TopicService, private feedService: FeedService) { 
         this.route.params.subscribe(p => {
             this.topic = this.topicService.getTopic(p.topicId);
         });        
@@ -26,7 +26,8 @@ export class TopicDetailComponent implements OnInit {
         this.loadFeed(change.options[0].value);
     }
 
-    loadFeed(channel: Channel) {
-        this.channelService.load(channel);
+    async loadFeed(channel: Channel) {
+        let feed = await this.feedService.load(channel);
+        console.log(feed);
     }
 }
