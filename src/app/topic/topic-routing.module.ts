@@ -7,7 +7,7 @@ import { TopicComponent } from './topic.component';
 const routes: Routes = [
     { path: '', component: TopicComponent,
         children: [
-            { path: '', redirectTo: 'saved', pathMatch: 'full' },
+            //{ path: '', redirectTo: 'saved', pathMatch: 'full' },
             { path: ':topicId', component: TopicDetailComponent }
         ]        
     },

@@ -11,7 +11,7 @@
             <mat-nav-list>
                 <a mat-list-item [routerLink]="['/topic/', 'saved']"> Saved </a>
                 <mat-divider></mat-divider>
-                <a mat-list-item *ngFor="let topic of topics" [routerLink]="['/topic/', topic.name]">
+                <a mat-list-item *ngFor="let topic of (topics | async)" [routerLink]="['/topic/', topic.name]">
                     {{topic.name}}
                 </a>
             </mat-nav-list>

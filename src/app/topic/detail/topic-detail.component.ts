@@ -16,7 +16,7 @@ export class TopicDetailComponent implements OnInit {
 
     constructor(private route: ActivatedRoute, private topicService: TopicService, private feedService: FeedService) { 
         this.route.params.subscribe(p => {
-            this.topic = this.topicService.getTopic(p.topicId);
+            this.topicService.getTopic(p.topicId).then(val => this.topic = val);
         });        
     }
 
