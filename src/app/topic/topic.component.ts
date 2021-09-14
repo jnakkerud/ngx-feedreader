@@ -16,7 +16,7 @@ const SMALL_WIDTH_BREAKPOINT = 959;
 export class TopicComponent {
     @ViewChild(MatSidenav) sidenav!: MatSidenav;
     
-    topics!: Promise<Topic[]>;
+    topics: Promise<Topic[]>;
     selectedTopic?: Topic;
 
     isExtraScreenSmall: Observable<boolean>;

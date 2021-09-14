@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { OpmlReader } from './opml-reader';
 import { TopicStorageService } from './topic-storage.service';
 
-// http://localhost:4200/topic?topics=%2Fassets%2Fsample%2Fsample.opml
+// http://localhost:4200/?topics=%2Fassets%2Fsample%2Fsample.opml
 function getTopicsUrl() {
     const queryString = window.location.search;
     if (queryString) {
@@ -42,7 +42,6 @@ export class TopicService {
         return new Promise<Topic[]>((resolve) => {            
             // get topics from local storage
             let topics = this.topicsStorage.get();
-            console.log('topics', topics);
             if (!topics?.length) {
                 // load from URL
                 const topicsUrl = getTopicsUrl();
@@ -59,19 +58,20 @@ export class TopicService {
                 } else {
                     this.redirectToConfig();
                 }    
-            }
-            resolve(topics);
+            } else {
+                resolve(topics);
+            }            
         });
     }
 
     public getTopic(name: string): Promise<Topic> {
-        return new Promise<Topic>((resolve, error) => {
+        return new Promise<Topic>((resolve, reject) => {
             this.getTopics().then(topics => {
                 let topic = topics.find(t => t.name === name);
                 if (topic) {
                     resolve(topic);
                 }
-                error('Cannot find topic');
+                reject('Cannot find topic');
             });
         });        
     }
@@ -83,8 +83,6 @@ export class TopicService {
     private loadAndSaveTopics(data: string): Topic[] {
         const opmlReader = new OpmlReader();
         let topics = opmlReader.read(data);
-
-        console.log('reading topics', topics);
 
         // write the topics to storage
         this.topicsStorage.put(topics);
