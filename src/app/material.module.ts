@@ -6,7 +6,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
-
+import { MatFormFieldModule } from '@angular/material/form-field'; // TODO remove
+import { MatSelectModule } from '@angular/material/select'; // TODO remove
+import { CdkAccordionModule } from '@angular/cdk/accordion';
 
 const modules: any[] = [
     MatSidenavModule,
@@ -14,7 +16,10 @@ const modules: any[] = [
     MatToolbarModule,
     MatListModule,
     MatButtonModule,
-    MatDividerModule
+    MatDividerModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    CdkAccordionModule
 ];
 
 @NgModule({

@@ -19,7 +19,7 @@ export interface Feed {
 }
 
 // https://blog.grida.co/cors-anywhere-for-everyone-free-reliable-cors-proxy-service-73507192714e
-const CORS_PROXY = 'https://cors.bridged.cc';
+const CORS_PROXY = 'https://cors.bridged.cc'; // TODO make a config item
 @Injectable({providedIn: 'root'})
 export class FeedService {
 

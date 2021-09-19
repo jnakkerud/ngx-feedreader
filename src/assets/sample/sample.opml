@@ -34,5 +34,6 @@
         <outline type="rss" text="TechCrunch" title="TechCrunch" xmlUrl="http://feeds.feedburner.com/Techcrunch" htmlUrl="https://techcrunch.com"/>
         <outline type="rss" text="CoLiving" title="CoLiving" xmlUrl="https://www.google.com/alerts/feeds/05173895962631213926/5096432560478599062"/>
         <outline type="rss" text="CoHousing" title="CoHousing" xmlUrl="https://www.google.com/alerts/feeds/05173895962631213926/5096432560478600634"/>
+        <outline type="rss" text="Swiss News" title="Swiss News" xmlUrl="https://www.swissinfo.ch/service/eng/rssxml/latest-news/rss"/>
     </body>
 </opml>

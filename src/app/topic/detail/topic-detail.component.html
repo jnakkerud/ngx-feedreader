@@ -1,5 +1,49 @@
-<mat-selection-list [multiple]="false" (selectionChange)="onSelectionChange($event)">
-    <mat-list-option *ngFor="let channel of topic?.channels" [value]="channel">
-        {{channel.title}}
-    </mat-list-option>
-</mat-selection-list>
+<div *ngIf="topic">
+    <mat-toolbar-row>
+        <mat-toolbar>
+            <span>{{topic?.name}}</span>
+        </mat-toolbar>
+    </mat-toolbar-row>
+    <mat-toolbar-row>
+        <mat-form-field appearance="fill">
+            <mat-select (selectionChange)="onSelectionChange($event)">
+              <mat-option *ngFor="let channel of topic?.channels" [value]="channel">
+                {{channel.title}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>        
+    </mat-toolbar-row>
+</div>
+
+<div class="feed-container">
+    <cdk-accordion class="example-accordion">
+        <cdk-accordion-item *ngFor="let item of feedItems" #accordionItem="cdkAccordionItem">
+            <article class="feed-row">
+                <div class="feed-item clickable" (click)="item.saved = !item.saved ">
+                    <mat-icon>{{item.saved ? 'bookmark' : 'bookmark_border'}}</mat-icon>
+                </div>
+                <div class="feed-item clickable" (click)="filterOnChannel(item)">{{item.channelName}}</div>
+                <div class="feed-item feed-item-center feed-content clickable" (click)="accordionItem.toggle()">
+                    <span class="feed-title c-gap">{{item.title}}</span>
+                    <div class="c-gap feed-comment">
+                        {{item.description}}
+                    </div>
+                </div>
+                <div class="feed-item">
+                    {{item.pubDate | date:'shortDate'}}
+                </div>
+            </article>
+            <div [style.display]="accordionItem.expanded ? '' : 'none'">
+                <article>
+                    <header class="center">
+                        <h2><a class="link" target="_blank" href="{{item.link}}" rel="bookmark">{{item.title}}</a></h2>                       
+                        <time datetime="item.pubDate">{{item.pubDate | date: 'full'}}</time>
+                    </header>
+                    <div class="content">
+                        {{item.description}}
+                    </div>
+                </article>
+            </div>
+        </cdk-accordion-item>
+    </cdk-accordion>
+</div>
