@@ -27,6 +27,7 @@ export class FeedService {
 
     constructor(private httpClient: HttpClient) { }
     
+    // TODO channel.title should match returned title
     public load(channel: Channel): Promise<Feed> {
         return new Promise<Feed>(resolve => {
             this.httpClient.get(`${CORS_PROXY}/${channel.xmlUrl}`, { responseType: 'text' })
