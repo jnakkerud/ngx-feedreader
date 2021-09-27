@@ -36,4 +36,11 @@ export class TopicDetailComponent {
     filterOnChannel(feedItem: FeedStoreItem) {
         console.log('filterOnChannel', feedItem.channelName);
     }
+
+    updateSaved(feedItem: FeedStoreItem, saved: boolean): void {
+        feedItem.saved = saved;
+        this.feedService.updateFeed(feedItem).then(i => {
+            console.log('updateSaved', i);
+        })
+    }
 }

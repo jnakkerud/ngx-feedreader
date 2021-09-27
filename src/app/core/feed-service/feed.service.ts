@@ -75,8 +75,6 @@ export class FeedService {
             return i.pubDate.getTime() > latest.getTime();
         });
 
-        console.log('newItems', newItems);
-
         if (newItems?.length) {
             await this.feedStorageService.add(newItems);
         }
@@ -84,5 +82,8 @@ export class FeedService {
         return this.feedStorageService.getItems('channelName', channels[0].title);
     }
 
+    public updateFeed(feedItem: FeedStoreItem): Promise<FeedStoreItem> {
+        return this.feedStorageService.update(feedItem);
+    }
 
 }

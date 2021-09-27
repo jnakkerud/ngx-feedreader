@@ -19,7 +19,7 @@
     <cdk-accordion class="example-accordion">
         <cdk-accordion-item *ngFor="let item of feedItems" #accordionItem="cdkAccordionItem">
             <article class="feed-row">
-                <div class="feed-item clickable" (click)="item.saved = !item.saved ">
+                <div class="feed-item clickable" (click)="updateSaved(item, item.saved = !item.saved)">
                     <mat-icon>{{item.saved ? 'bookmark' : 'bookmark_border'}}</mat-icon>
                 </div>
                 <div class="feed-item clickable" (click)="filterOnChannel(item)">{{item.channelName}}</div>
