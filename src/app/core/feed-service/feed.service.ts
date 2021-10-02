@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Channel } from '../topic-service/topic.service';
 import { FeedReader } from './feed-reader';
-import { FeedStorageService, FeedStoreItem } from './feed-storage.service';
+import { FeedStorageService, FeedStoreItem, FilterBy } from './feed-storage.service';
 export interface FeedItem {
     title: string;
     description: string;
@@ -51,7 +51,7 @@ export class FeedService {
             Promise.all(feedSrc).then(result => {
                 result.forEach(feed => {
                     if (feed?.items) {
-                        let f = { channelName: feed.title, saved: false };
+                        let f = { channelName: feed.title, saved: false, markedAsRead: false};
                         items.push(...feed.items.map(item => { return { ...f, ...item } as FeedStoreItem }));
                     }
                 });
@@ -62,9 +62,18 @@ export class FeedService {
 
     // TODO handle multiple channels
     public async loadFeeds(channels: Channel[]): Promise<FeedStoreItem[]> {
-        // get feeds from store
-        // TODO return latest for channel
-        let storeItems = await this.feedStorageService.getItems('channelName', channels[0].title);
+        const filterBy: FilterBy[] = [
+            {
+                filterName: 'channelName',
+                value: channels[0].title
+            }, 
+            {
+                filterName: 'markedAsRead',
+                value: false
+
+            }
+        ]
+        let storeItems = await this.feedStorageService.getItems(filterBy, 1);
         const latest = storeItems?.length ? storeItems[0].pubDate : new Date(628021800000); // 1989
 
         // get feeds via url
@@ -79,7 +88,7 @@ export class FeedService {
             await this.feedStorageService.add(newItems);
         }
     
-        return this.feedStorageService.getItems('channelName', channels[0].title);
+        return this.feedStorageService.getItems(filterBy);
     }
 
     public updateFeed(feedItem: FeedStoreItem): Promise<FeedStoreItem> {

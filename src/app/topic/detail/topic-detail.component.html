@@ -17,7 +17,7 @@
 
 <div class="feed-container">
     <cdk-accordion class="example-accordion">
-        <cdk-accordion-item *ngFor="let item of feedItems" #accordionItem="cdkAccordionItem">
+        <cdk-accordion-item *ngFor="let item of feedItems" #accordionItem="cdkAccordionItem" (opened)="onOpenFeedItem(item)">
             <article class="feed-row">
                 <div class="feed-item clickable" (click)="updateSaved(item, item.saved = !item.saved)">
                     <mat-icon>{{item.saved ? 'bookmark' : 'bookmark_border'}}</mat-icon>

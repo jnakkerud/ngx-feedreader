@@ -43,4 +43,11 @@ export class TopicDetailComponent {
             console.log('updateSaved', i);
         })
     }
+
+    onOpenFeedItem(feedItem: FeedStoreItem) {
+        feedItem.markedAsRead = true;
+        this.feedService.updateFeed(feedItem).then(i => {
+            console.log('onOpenFeedItem.updated', i);
+        })
+    }
 }
