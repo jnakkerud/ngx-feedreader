@@ -19,7 +19,6 @@ export class NavBarComponent implements AfterContentInit {
 
     constructor(private route: ActivatedRoute, private topicService: TopicService) { }
 
-
     ngAfterContentInit(): void {
         this.route.params.subscribe(p => {
             this.topicService.getTopic(p.topicId).then(val => {

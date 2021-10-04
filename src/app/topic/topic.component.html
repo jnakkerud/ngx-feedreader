@@ -5,7 +5,7 @@
         </button>
         <h1>ngx feed reader</h1>
     </mat-toolbar>
-    <mat-sidenav-container class="topic-sidenav-container">
+    <mat-sidenav-container class="topic-sidenav-container" autosize>
         <mat-sidenav #sidenav class="topic-sidenav" [opened]="(isScreenSmall | async) === false"
             [mode]="(isScreenSmall | async) ? 'over' : 'side'">
             <mat-nav-list>

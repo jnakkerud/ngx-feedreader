@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FeedStoreItem } from 'src/app/core/feed-service/feed-storage.service';
 import { FeedService } from 'src/app/core/feed-service/feed.service';
 import { Channel } from 'src/app/core/topic-service/topic.service';
