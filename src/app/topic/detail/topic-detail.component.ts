@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FeedStoreItem } from 'src/app/core/feed-service/feed-storage.service';
 import { FeedService } from 'src/app/core/feed-service/feed.service';
 import { Channel } from 'src/app/core/topic-service/topic.service';
@@ -9,7 +9,7 @@ import { Channel } from 'src/app/core/topic-service/topic.service';
 })
 export class TopicDetailComponent {
 
-    feedItems?: FeedStoreItem[]; 
+    @Input() feedItems?: FeedStoreItem[]; 
 
     constructor(private feedService: FeedService) {}
 
