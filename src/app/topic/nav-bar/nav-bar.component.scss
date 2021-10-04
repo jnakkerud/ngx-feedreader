@@ -1,0 +1,8 @@
+.nav-bar-container {
+    display: flex;
+    margin: 24px;
+}
+
+.nav-bar-item + .nav-bar-item { 
+    margin-left: 16px; 
+}

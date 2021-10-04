@@ -1,20 +1,4 @@
-<div *ngIf="topic">
-    <mat-toolbar-row>
-        <mat-toolbar>
-            <span>{{topic?.name}}</span>
-        </mat-toolbar>
-    </mat-toolbar-row>
-    <mat-toolbar-row>
-        <mat-form-field appearance="fill">
-            <mat-select (selectionChange)="onSelectionChange($event)">
-              <mat-option *ngFor="let channel of topic?.channels" [value]="channel">
-                {{channel.title}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>        
-    </mat-toolbar-row>
-</div>
-
+<app-nav-bar #navBar (channelChange)="onSelectionChange($event)"></app-nav-bar>
 <div class="feed-container">
     <cdk-accordion class="example-accordion">
         <cdk-accordion-item *ngFor="let item of feedItems" #accordionItem="cdkAccordionItem" (opened)="onOpenFeedItem(item)">
@@ -46,4 +30,9 @@
             </div>
         </cdk-accordion-item>
     </cdk-accordion>
+</div>
+<div *ngIf="!!feedItems" class="feed-footer mat-elevation-z4">
+    <button mat-button (click)="navBar.nextChannel()">Next Feed</button>
+    <div class="flex-spacer"></div>
+    <button mat-button (click)="markAllRead()">Mark All As Read</button>
 </div>

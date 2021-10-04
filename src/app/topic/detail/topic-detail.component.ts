@@ -1,9 +1,7 @@
-import { Component, Input } from '@angular/core';
-import { MatSelectChange } from '@angular/material/select';
-import { ActivatedRoute } from '@angular/router';
+import { AfterContentInit, Component, OnInit } from '@angular/core';
 import { FeedStoreItem } from 'src/app/core/feed-service/feed-storage.service';
 import { FeedService } from 'src/app/core/feed-service/feed.service';
-import { Channel, Topic, TopicService } from 'src/app/core/topic-service/topic.service';
+import { Channel } from 'src/app/core/topic-service/topic.service';
 @Component({
     selector: 'app-topic-detail',
     templateUrl: 'topic-detail.component.html',
@@ -11,26 +9,18 @@ import { Channel, Topic, TopicService } from 'src/app/core/topic-service/topic.s
 })
 export class TopicDetailComponent {
 
-    @Input() topic?: Topic;
-
     feedItems?: FeedStoreItem[]; 
 
-    constructor(private route: ActivatedRoute, private topicService: TopicService, private feedService: FeedService) { 
-        this.route.params.subscribe(p => {
-            this.topicService.getTopic(p.topicId).then(val => {
-                this.topic = val;
-                //this.loadFeeds();
-            });
-        });        
+    constructor(private feedService: FeedService) {}
 
+    onSelectionChange(channel: Channel) {
+        this.loadFeed(channel);
     }
 
-    onSelectionChange(change: MatSelectChange) {
-        this.loadFeed(change.value);
-    }
-
-    async loadFeed(channel: Channel) {
-        this.feedItems = await this.feedService.loadFeeds([channel]);
+    loadFeed(channel: Channel) {
+        this.feedService.loadFeeds([channel]).then(data => {
+            this.feedItems = data;
+        });
     }
 
     filterOnChannel(feedItem: FeedStoreItem) {
@@ -44,10 +34,15 @@ export class TopicDetailComponent {
         })
     }
 
+    // TODO handle read for later feeds
     onOpenFeedItem(feedItem: FeedStoreItem) {
         feedItem.markedAsRead = true;
         this.feedService.updateFeed(feedItem).then(i => {
             console.log('onOpenFeedItem.updated', i);
         })
+    }
+
+    markAllRead(): void {
+        // TODO mark all as read
     }
 }

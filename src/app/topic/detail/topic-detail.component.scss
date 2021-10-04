@@ -6,6 +6,7 @@
 .feed-item-center {
     flex-grow: 1;
 }
+
 .feed-item + .feed-item { 
     margin-left: 16px; 
 }
@@ -58,4 +59,13 @@
 
 .content {
     margin: 24px;
+}
+
+.feed-footer {
+    display: flex;
+    margin: 24px;
+}
+
+.flex-spacer {
+    flex-grow: 1;
 }

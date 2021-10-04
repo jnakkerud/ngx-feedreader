@@ -1,0 +1,10 @@
+<div *ngIf="topic" class="nav-bar-container">
+    <h2 class="nav-bar-item">{{topic?.name}}</h2>
+    <mat-form-field class="nav-bar-item">
+        <mat-select (selectionChange)="onSelectionChange()" [(value)]="selected">
+          <mat-option *ngFor="let channel of topic?.channels" [value]="channel">
+            {{channel.title}}
+          </mat-option>
+        </mat-select>
+    </mat-form-field>  
+</div>
