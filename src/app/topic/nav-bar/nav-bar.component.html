@@ -1,8 +1,9 @@
 <div class="nav-bar-container">
-    <h2 class="nav-bar-item">{{topic?.name}}</h2>
-    <h2 class="nav-bar-item">/</h2>
-    <mat-form-field class="nav-bar-item">
+    <span class="nav-bar-item nav-bar-title">{{topic?.name}}</span>
+    <span class="nav-bar-item nav-bar-title">/</span>
+    <mat-form-field *ngIf="selected"class="nav-bar-item">
         <mat-select (selectionChange)="onSelectionChange()" [(value)]="selected">
+            <mat-select-trigger><span class="nav-bar-title">{{selected.title}}</span></mat-select-trigger>
             <mat-option *ngFor="let channel of topic?.channels" [value]="channel">
                 {{channel.title}}
             </mat-option>
