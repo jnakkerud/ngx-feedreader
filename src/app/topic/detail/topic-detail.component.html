@@ -1,38 +1,42 @@
 <app-nav-bar #navBar (channelChange)="onSelectionChange($event)"></app-nav-bar>
-<div class="feed-container">
-    <cdk-accordion class="example-accordion">
-        <cdk-accordion-item *ngFor="let item of feedItems" #accordionItem="cdkAccordionItem" (opened)="onOpenFeedItem(item)">
-            <article class="feed-row">
-                <div class="feed-item clickable" (click)="updateSaved(item, item.saved = !item.saved)">
-                    <mat-icon>{{item.saved ? 'bookmark' : 'bookmark_border'}}</mat-icon>
-                </div>
-                <div class="feed-item clickable" (click)="filterOnChannel(item)">{{item.channelName}}</div>
-                <div class="feed-item feed-item-center feed-content clickable" (click)="accordionItem.toggle()">
-                    <span class="feed-title c-gap">{{item.title}}</span>
-                    <div class="c-gap feed-comment">
-                        {{item.description}}
+<div *ngIf="!!feedItems">
+    <div class="feed-container">
+        <cdk-accordion class="example-accordion">
+            <cdk-accordion-item *ngFor="let item of feedItems" #accordionItem="cdkAccordionItem"
+                (opened)="onOpenFeedItem(item)">
+                <article class="feed-row">
+                    <div class="feed-item clickable" (click)="updateSaved(item, item.saved = !item.saved)">
+                        <mat-icon>{{item.saved ? 'bookmark' : 'bookmark_border'}}</mat-icon>
                     </div>
-                </div>
-                <div class="feed-item">
-                    {{item.pubDate | date:'shortDate'}}
-                </div>
-            </article>
-            <div [style.display]="accordionItem.expanded ? '' : 'none'">
-                <article>
-                    <header class="center">
-                        <h2><a class="link" target="_blank" href="{{item.link}}" rel="bookmark">{{item.title}}</a></h2>                       
-                        <time datetime="item.pubDate">{{item.pubDate | date: 'full'}}</time>
-                    </header>
-                    <div class="content">
-                        {{item.description}}
+                    <div class="feed-item clickable" (click)="filterOnChannel(item)">{{item.channelName}}</div>
+                    <div class="feed-item feed-item-center feed-content clickable" (click)="accordionItem.toggle()">
+                        <span class="feed-title c-gap">{{item.title}}</span>
+                        <div class="c-gap feed-comment">
+                            {{item.description}}
+                        </div>
+                    </div>
+                    <div class="feed-item">
+                        {{item.pubDate | date:'shortDate'}}
                     </div>
                 </article>
-            </div>
-        </cdk-accordion-item>
-    </cdk-accordion>
-</div>
-<div *ngIf="!!feedItems" class="feed-footer mat-elevation-z4">
-    <button mat-button (click)="navBar.nextChannel()">Next Feed</button>
-    <div class="flex-spacer"></div>
-    <button mat-button (click)="markAllRead()">Mark All As Read</button>
+                <div [style.display]="accordionItem.expanded ? '' : 'none'">
+                    <article>
+                        <header class="center">
+                            <h2><a class="link" target="_blank" href="{{item.link}}" rel="bookmark">{{item.title}}</a>
+                            </h2>
+                            <time datetime="item.pubDate">{{item.pubDate | date: 'full'}}</time>
+                        </header>
+                        <div class="content">
+                            {{item.description}}
+                        </div>
+                    </article>
+                </div>
+            </cdk-accordion-item>
+        </cdk-accordion>
+    </div>
+    <div class="feed-footer mat-elevation-z4">
+        <button mat-button (click)="navBar.nextChannel()">Next Feed</button>
+        <div class="flex-spacer"></div>
+        <button mat-button (click)="markAllRead()">Mark All As Read</button>
+    </div>
 </div>
