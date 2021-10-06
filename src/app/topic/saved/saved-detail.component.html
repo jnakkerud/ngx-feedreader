@@ -1,1 +1,11 @@
-<div>TODO Saved detail</div>
+<div class="saved-bar-container">
+    <span class="saved-bar-title">Saved</span>
+</div>
+<div *ngIf="!!feedItems">
+    <div class="feed-container">
+        <app-feeds [feedItems]="feedItems"></app-feeds>
+    </div>
+    <div class="saved-footer mat-elevation-z4">
+        <button mat-button (click)="markAllRead()">Mark All As Read</button>
+    </div>
+</div>

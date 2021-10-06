@@ -91,6 +91,22 @@ export class FeedService {
         return this.feedStorageService.getItems(filterBy);
     }
 
+    public async loadSavedFeeds(): Promise<FeedStoreItem[]> {
+        const filterBy: FilterBy[] = [
+            {
+                filterName: 'saved',
+                value: true
+            }, 
+            {
+                filterName: 'markedAsRead',
+                value: false
+
+            }
+        ]    
+        return this.feedStorageService.getItems(filterBy);
+    }
+
+
     public updateFeed(feedItem: FeedStoreItem): Promise<FeedStoreItem> {
         return this.feedStorageService.update(feedItem);
     }
