@@ -1,27 +1,17 @@
 import { Component, Input } from '@angular/core';
 import { FeedStoreItem } from 'src/app/core/feed-service/feed-storage.service';
 import { FeedService } from 'src/app/core/feed-service/feed.service';
-import { Channel } from 'src/app/core/topic-service/topic.service';
+
 @Component({
-    selector: 'app-topic-detail',
-    templateUrl: 'topic-detail.component.html',
-    styleUrls: ['./topic-detail.component.scss'],    
+    selector: 'app-feeds',
+    templateUrl: 'feeds.component.html',
+    styleUrls: ['./feeds.component.scss'],    
 })
-export class TopicDetailComponent {
+export class FeedsComponent {
 
     @Input() feedItems?: FeedStoreItem[]; 
 
     constructor(private feedService: FeedService) {}
-
-    onSelectionChange(channel: Channel) {
-        this.loadFeed(channel);
-    }
-
-    loadFeed(channel: Channel) {
-        this.feedService.loadFeeds([channel]).then(data => {
-            this.feedItems = data;
-        });
-    }
 
     filterOnChannel(feedItem: FeedStoreItem) {
         console.log('filterOnChannel', feedItem.channelName);
@@ -35,14 +25,11 @@ export class TopicDetailComponent {
     }
 
     // TODO handle read for later feeds
+    // OnDestroy to delete the feeds
     onOpenFeedItem(feedItem: FeedStoreItem) {
         feedItem.markedAsRead = true;
         this.feedService.updateFeed(feedItem).then(i => {
             console.log('onOpenFeedItem.updated', i);
         })
-    }
-
-    markAllRead(): void {
-        // TODO mark all as read
     }
 }

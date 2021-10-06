@@ -1,0 +1,11 @@
+<app-channel-nav-bar #navBar (channelChange)="onSelectionChange($event)"></app-channel-nav-bar>
+<div *ngIf="!!feedItems">
+    <div class="feed-container">
+        <app-feeds [feedItems]="feedItems"></app-feeds>
+    </div>
+    <div class="feed-footer mat-elevation-z4">
+        <button mat-button (click)="navBar.nextChannel()">Next Feed</button>
+        <div class="flex-spacer"></div>
+        <button mat-button (click)="markAllRead()">Mark All As Read</button>
+    </div>
+</div>

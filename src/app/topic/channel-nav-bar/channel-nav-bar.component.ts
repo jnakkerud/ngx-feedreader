@@ -3,11 +3,11 @@ import { ActivatedRoute } from '@angular/router';
 import { Channel, Topic, TopicService } from 'src/app/core/topic-service/topic.service';
 
 @Component({
-    selector: 'app-nav-bar',
-    templateUrl: 'nav-bar.component.html',
-    styleUrls: ['./nav-bar.component.scss'],    
+    selector: 'app-channel-nav-bar',
+    templateUrl: 'channel-nav-bar.component.html',
+    styleUrls: ['./channel-nav-bar.component.scss'],    
 })
-export class NavBarComponent implements AfterContentInit {
+export class ChannelNavBarComponent implements AfterContentInit {
 
     topic!: Topic;
 
