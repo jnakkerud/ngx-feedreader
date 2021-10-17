@@ -25,7 +25,7 @@ export class FeedService {
 
     private feedReader = new FeedReader();
 
-    constructor(private httpClient: HttpClient, private feedStorageService: FeedStorageService) { }
+    constructor(private httpClient: HttpClient, private feedStorageService: FeedStorageService) {}
     
     getFeed(channel: Channel): Promise<Feed> {
         return new Promise<Feed>(resolve => {
@@ -110,5 +110,4 @@ export class FeedService {
     public updateFeed(feedItem: FeedStoreItem): Promise<FeedStoreItem> {
         return this.feedStorageService.update(feedItem);
     }
-
 }
