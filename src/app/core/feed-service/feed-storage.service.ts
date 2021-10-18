@@ -83,17 +83,16 @@ export class FeedStorageService {
         });
     }
 
-    // TODO remove records as part of an eviction process
-    // i.e records greater then 30 days that are marked as read
-    public delete(filterBy: FilterBy[]): Promise<boolean> {
+    public delete(): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
             this.openDatabase().then(db => {
                 const objectStore = this.createTransaction(db).objectStore(STORE_NAME);
-                const request = objectStore.index('pubDate').openCursor();
+                const request = objectStore.index('markedAsRead').openCursor(IDBKeyRange.only(true));
                 request.onsuccess = (event) => {
                     const cursor: IDBCursorWithValue = (event.target as IDBRequest<IDBCursorWithValue>).result;
                     if (cursor) {
-                        if (filter(cursor.value, filterBy)) {
+                        const item: FeedStoreItem = cursor.value;
+                        if (item.saved !== true) {
                             cursor.delete();
                         }
                         cursor.continue();

@@ -4,7 +4,7 @@ import { FeedStorageService } from '../feed-service/feed-storage.service';
 @Injectable({providedIn: 'root'})
 export class EvictionService {
 
-    constructor(feedStorage: FeedStorageService) { }
+    constructor(private feedStorage: FeedStorageService) { }
     
     /*@HostListener('window:beforeunload', ['$event'])
     public async run($event: any) {
@@ -13,8 +13,8 @@ export class EvictionService {
         $event.returnValue = 'Done evicting.';
     }*/
 
-    public async run() {
-        console.log('run eviction')
+    public run() {
+        this.feedStorage.delete().then();
     }
 
 }
