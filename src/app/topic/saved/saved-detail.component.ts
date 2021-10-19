@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { EvictionService } from 'src/app/core/eviction-service/eviction.service';
 import { FeedStoreItem } from 'src/app/core/feed-service/feed-storage.service';
 import { FeedService } from 'src/app/core/feed-service/feed.service';
 
@@ -12,7 +13,7 @@ export class SavedDetailComponent implements OnInit {
 
     feedItems?: FeedStoreItem[]; 
 
-    constructor(private feedService: FeedService) { }
+    constructor(private feedService: FeedService, private evictionService: EvictionService) { }
 
     ngOnInit() { 
         this.feedService.loadSavedFeeds().then(data => {
@@ -21,6 +22,7 @@ export class SavedDetailComponent implements OnInit {
     }
 
     markAllRead(): void {
-        // TODO mark all as read
+        this.evictionService.markAndEvict(this.feedItems);
+        this.feedItems = [];
     }    
 }

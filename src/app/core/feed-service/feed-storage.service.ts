@@ -83,6 +83,16 @@ export class FeedStorageService {
         });
     }
 
+    public bulkUpdate(updateItems: FeedStoreItem[]): Promise<FeedStoreItem[]> {
+        return new Promise<FeedStoreItem[]>((resolve, reject) => {
+            this.openDatabase().then(db => {
+                const objectStore = this.createTransaction(db).objectStore(STORE_NAME);
+                // TODO bulk update
+                //resolve(updateItems);
+            }).catch((reason) => reject(reason));
+        });
+    }
+
     public delete(): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
             this.openDatabase().then(db => {

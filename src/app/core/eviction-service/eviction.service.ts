@@ -1,20 +1,26 @@
-import { HostListener, Injectable } from '@angular/core';
-import { FeedStorageService } from '../feed-service/feed-storage.service';
+import { Injectable } from '@angular/core';
+import { fromEvent } from 'rxjs';
+import { FeedStorageService, FeedStoreItem } from '../feed-service/feed-storage.service';
 
 @Injectable({providedIn: 'root'})
 export class EvictionService {
 
-    constructor(private feedStorage: FeedStorageService) { }
+    constructor(private feedStorage: FeedStorageService) { 
+        fromEvent(window, 'beforeunload')
+        .subscribe(() => this.evict());        
+    }
     
-    /*@HostListener('window:beforeunload', ['$event'])
-    public async run($event: any) {
-        alert('done evictin')
-        $event.preventDefault();
-        $event.returnValue = 'Done evicting.';
-    }*/
-
-    public run() {
-        this.feedStorage.delete().then();
+    public async markAndEvict(feedItems: FeedStoreItem[] | undefined) {
+        if (feedItems) {
+            let markedItems: FeedStoreItem[] = await this.feedStorage.bulkUpdate(feedItems.map(item => {
+                item.markedAsRead = true;
+                return item;
+            }));
+            this.evict();
+        }
     }
 
+    public evict() {
+        this.feedStorage.delete().then(() => console.log('Delete done'));
+    }
 }

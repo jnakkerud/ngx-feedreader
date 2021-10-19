@@ -20,8 +20,6 @@ export interface Feed {
 
 // https://blog.grida.co/cors-anywhere-for-everyone-free-reliable-cors-proxy-service-73507192714e
 const CORS_PROXY = 'https://cors.bridged.cc'; // TODO make a config item
-
-
 const httpOptions: Object = {
     headers: new HttpHeaders({
       'x-cors-grida-api-key': '26abc730-6079-4cea-a3e6-b0665cc0d190'
