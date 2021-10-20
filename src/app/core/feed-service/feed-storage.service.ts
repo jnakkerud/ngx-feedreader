@@ -86,23 +86,27 @@ export class FeedStorageService {
     public bulkUpdate(updateItems: FeedStoreItem[]): Promise<FeedStoreItem[]> {
         return new Promise<FeedStoreItem[]>((resolve, reject) => {
             this.openDatabase().then(db => {
-                const objectStore = this.createTransaction(db).objectStore(STORE_NAME);
-                // TODO bulk update
-                //resolve(updateItems);
+                const transaction = this.createTransaction(db);
+                const objectStore = transaction.objectStore(STORE_NAME);
+                updateItems.forEach(item => objectStore.put(item));
+                transaction.oncomplete = () => {
+                    resolve(updateItems);
+                };
+
             }).catch((reason) => reject(reason));
         });
     }
 
-    public delete(): Promise<boolean> {
+    public delete(keyRange: IDBKeyRange): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
             this.openDatabase().then(db => {
                 const objectStore = this.createTransaction(db).objectStore(STORE_NAME);
-                const request = objectStore.index('markedAsRead').openCursor(IDBKeyRange.only(true));
+                const request = objectStore.index('pubDate').openCursor(keyRange);
                 request.onsuccess = (event) => {
                     const cursor: IDBCursorWithValue = (event.target as IDBRequest<IDBCursorWithValue>).result;
                     if (cursor) {
                         const item: FeedStoreItem = cursor.value;
-                        if (item.saved !== true) {
+                        if (item.markedAsRead && item.saved !== true) {
                             cursor.delete();
                         }
                         cursor.continue();
@@ -117,7 +121,7 @@ export class FeedStorageService {
     public add(items: FeedStoreItem[]): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
             this.openDatabase().then(db => {
-                console.log('add items')
+                console.log('add items', items.length);
                 const transaction = this.createTransaction(db);
                 const objectStore = transaction.objectStore(STORE_NAME);
                 items.forEach(item => objectStore.add(item));

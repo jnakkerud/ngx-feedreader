@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { fromEvent } from 'rxjs';
 import { FeedStorageService, FeedStoreItem } from '../feed-service/feed-storage.service';
 
+// 15 days in milliseconds
+const DAYS15_TO_MILLISECONDS = 1296000000;
+
 @Injectable({providedIn: 'root'})
 export class EvictionService {
 
@@ -12,15 +15,16 @@ export class EvictionService {
     
     public async markAndEvict(feedItems: FeedStoreItem[] | undefined) {
         if (feedItems) {
-            let markedItems: FeedStoreItem[] = await this.feedStorage.bulkUpdate(feedItems.map(item => {
+            await this.feedStorage.bulkUpdate(feedItems.map(item => {
                 item.markedAsRead = true;
                 return item;
             }));
-            this.evict();
         }
+        this.evict();
     }
 
     public evict() {
-        this.feedStorage.delete().then(() => console.log('Delete done'));
+        const evictDate = new Date(new Date().getTime() - DAYS15_TO_MILLISECONDS);
+        this.feedStorage.delete(IDBKeyRange.upperBound(evictDate)).then(() => console.log('Delete done'));
     }
 }

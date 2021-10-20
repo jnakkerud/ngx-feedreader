@@ -72,11 +72,6 @@ export class FeedService {
             {
                 filterName: 'channelName',
                 value: channels[0].title
-            }, 
-            {
-                filterName: 'markedAsRead',
-                value: false
-
             }
         ]
         let storeItems = await this.feedStorageService.getItems(filterBy, 1);
@@ -94,6 +89,12 @@ export class FeedService {
             await this.feedStorageService.add(newItems);
         }
     
+        filterBy.push(
+            {
+                filterName: 'markedAsRead',
+                value: false
+            }
+        )
         return this.feedStorageService.getItems(filterBy);
     }
 
