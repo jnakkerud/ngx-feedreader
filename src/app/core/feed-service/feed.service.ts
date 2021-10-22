@@ -3,6 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Channel } from '../topic-service/topic.service';
 import { FeedReader } from './feed-reader';
 import { FeedStorageService, FeedStoreItem, FilterBy } from './feed-storage.service';
+import { proxyConfig } from '../../proxy-config';
+
 export interface FeedItem {
     title: string;
     description: string;
@@ -18,12 +20,8 @@ export interface Feed {
     items: FeedItem[];
 }
 
-// https://blog.grida.co/cors-anywhere-for-everyone-free-reliable-cors-proxy-service-73507192714e
-const CORS_PROXY = 'https://cors.bridged.cc'; // TODO make a config item
 const httpOptions: Object = {
-    headers: new HttpHeaders({
-      'x-cors-grida-api-key': '26abc730-6079-4cea-a3e6-b0665cc0d190'
-    }),
+    headers: new HttpHeaders(proxyConfig.headers),
     responseType: 'text'
 };
 @Injectable({providedIn: 'root'})
@@ -35,7 +33,7 @@ export class FeedService {
     
     getFeed(channel: Channel): Promise<Feed> {
         return new Promise<Feed>(resolve => {
-            this.httpClient.get<string>(`${CORS_PROXY}/${channel.xmlUrl}`, httpOptions)
+            this.httpClient.get<string>(`${proxyConfig.proxy}/${channel.xmlUrl}`, httpOptions)
                 .subscribe(response => {
                     let feed = this.feedReader.read(response);
                     feed.title = channel.title;
