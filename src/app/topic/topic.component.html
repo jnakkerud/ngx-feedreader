@@ -3,7 +3,13 @@
         <button mat-icon-button (click)="toggleSidenav()" *ngIf="(isScreenSmall | async)">
             <mat-icon>menu</mat-icon>
         </button>
-        <h1>ngx feed reader</h1>
+        <a mat-button routerLink="/" aria-label="ngx feed reader">
+            <h1>ngx feed reader</h1>
+        </a>
+        <span class="toolbar-spacer"></span>
+        <a mat-icon-button routerLink="/config" aria-label="configuration">
+            <mat-icon>settings</mat-icon>
+        </a>
     </mat-toolbar>
     <mat-sidenav-container class="topic-sidenav-container" autosize>
         <mat-sidenav #sidenav class="topic-sidenav" [opened]="(isScreenSmall | async) === false"

@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { MaterialModule } from '../material.module';
 
 @Component({
     selector: 'app-config',
@@ -11,7 +13,7 @@ export class ConfigComponent {
 
 @NgModule({
     imports: [
-        CommonModule],
+        CommonModule, MaterialModule, RouterModule],
     exports: [ConfigComponent],
     declarations: [ConfigComponent],
   })
