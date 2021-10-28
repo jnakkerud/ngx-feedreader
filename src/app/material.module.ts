@@ -9,6 +9,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field'; // TODO remove
 import { MatSelectModule } from '@angular/material/select'; // TODO remove
 import { CdkAccordionModule } from '@angular/cdk/accordion';
+import { MatTreeModule } from '@angular/material/tree';
 
 const modules: any[] = [
     MatSidenavModule,
@@ -19,7 +20,8 @@ const modules: any[] = [
     MatDividerModule,
     MatFormFieldModule,
     MatSelectModule,
-    CdkAccordionModule
+    CdkAccordionModule,
+    MatTreeModule
 ];
 
 @NgModule({

@@ -48,7 +48,9 @@ export class TopicService {
                 if (topicsUrl) {
                     this.getConfigFromUrl(topicsUrl)
                         .subscribe(response => {
-                            resolve(this.loadAndSaveTopics(response));            
+                            let topics = this.loadTopics(response);
+                            this.saveTopics(topics);
+                            resolve(topics);            
                         },
                         error => {
                             console.log(error);
@@ -76,17 +78,17 @@ export class TopicService {
         });        
     }
 
-    private getConfigFromUrl(url: string): Observable<any> {
-        return this.httpClient.get(url, { responseType: 'text' });
+    public loadTopics(data: string): Topic[] {
+        const opmlReader = new OpmlReader();
+        return opmlReader.read(data);
     }
 
-    private loadAndSaveTopics(data: string): Topic[] {
-        const opmlReader = new OpmlReader();
-        let topics = opmlReader.read(data);
+    public saveTopics(topics: Topic[]): void {
+        this.topicsStorage.put(topics);        
+    }
 
-        // write the topics to storage
-        this.topicsStorage.put(topics);
-        return topics;    
+    private getConfigFromUrl(url: string): Observable<any> {
+        return this.httpClient.get(url, { responseType: 'text' });
     }
 
     private redirectToConfig(): void {
