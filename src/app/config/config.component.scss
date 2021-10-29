@@ -24,8 +24,24 @@
     border-radius: 20px;
     padding: 24px;
     background: #424242;
+    display: flex;
+}
+
+.drop-message {
+    align-self: center;
+    flex-grow: 1;
+    text-align: center;
 }
 
 .chooser-button {
     margin-right: 16px;
+}
+
+.config-item-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.config-item-link:hover, .config-item-link:focus {
+    text-decoration: underline;
 }

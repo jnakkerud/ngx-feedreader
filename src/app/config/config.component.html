@@ -8,17 +8,17 @@
     </a>
 </mat-toolbar>
 <div class="config-container">
-    <div class="config-item drop-area" [style.opacity] = "dragging ? 0.8 : 1">
+    <div class="config-item drop-area" [style.opacity] = "dragging ? 0.6 : 1">
         <button type="button" mat-flat-button color="primary"(click)="fileInput.click()" class="chooser-button" >Choose File</button>
         <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file">
-        <span>{{dropMessage}}</span>
+        <span class="drop-message">{{dropMessage}}</span>
     </div>
     <mat-tree class="config-item" [dataSource]="dataSource" [treeControl]="treeControl">
         <!-- This is the tree node template for leaf nodes -->
         <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
             <!-- use a disabled button to provide padding for tree leaf -->
             <button mat-icon-button disabled></button>
-            <a href="{{node.url}}" target="_blank" rel="noopener noreferrer">{{node.name}}</a>
+            <a class="config-item-link" href="{{node.url}}" target="_blank" rel="noopener noreferrer">{{node.name}}</a>
         </mat-tree-node>
         <!-- This is the tree node template for expandable nodes -->
         <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
