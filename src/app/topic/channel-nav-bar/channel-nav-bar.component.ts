@@ -40,7 +40,7 @@ export class ChannelNavBarComponent implements AfterContentInit {
 
     nextChannel(): void {
         if (this.selected) {
-            const index = this.channels.findIndex(channel => channel.title === this.selected.title);
+            const index = this.channels.findIndex(channel => channel.name === this.selected.name);
             this.selected = this.channels[(index+1)%this.channels.length];
         } else {
             this.selected = this.channels[0];

@@ -19,7 +19,7 @@ function getTopicsUrl() {
     return null;
 }
 export interface Channel {
-    title: string;
+    name: string;
     xmlUrl: string;
     htmlUrl: string
 }

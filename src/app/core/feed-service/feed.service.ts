@@ -36,7 +36,7 @@ export class FeedService {
             this.httpClient.get<string>(`${proxyConfig.proxy}/${channel.xmlUrl}`, httpOptions)
                 .subscribe(response => {
                     let feed = this.feedReader.read(response);
-                    feed.title = channel.title;
+                    feed.title = channel.name;
                     resolve(feed); 
                 },
                 error => {
@@ -69,7 +69,7 @@ export class FeedService {
         const filterBy: FilterBy[] = [
             {
                 filterName: 'channelName',
-                value: channels[0].title
+                value: channels[0].name
             }
         ]
         let storeItems = await this.feedStorageService.getItems(filterBy, 1);

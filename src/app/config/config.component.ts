@@ -1,53 +1,20 @@
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, NgModule } from '@angular/core';
+import { Component, HostListener, NgModule, OnInit } from '@angular/core';
 import { MatTreeFlattener, MatTreeFlatDataSource } from '@angular/material/tree';
 import { RouterModule } from '@angular/router';
 import { TopicService } from '../core/topic-service/topic.service';
 import { MaterialModule } from '../material.module';
-
-/**
- * Food data with nested structure.
- * Each node has a name and an optional list of children.
- */
-interface FoodNode {
+interface TopicNode {
     name: string;
-    children?: FoodNode[];
+    xmlUrl?: string;
+    channels?: TopicNode[];
 }
-
-const TREE_DATA: FoodNode[] = [
-    {
-        name: 'Fruit',
-        children: [
-            { name: 'Apple' },
-            { name: 'Banana' },
-            { name: 'Fruit loops' },
-        ]
-    }, {
-        name: 'Vegetables',
-        children: [
-            {
-                name: 'Green',
-                children: [
-                    { name: 'Broccoli' },
-                    { name: 'Brussels sprouts' },
-                ]
-            }, {
-                name: 'Orange',
-                children: [
-                    { name: 'Pumpkins' },
-                    { name: 'Carrots' },
-                ]
-            },
-        ]
-    },
-];
-
-/** Flat node with expandable and level information */
-interface ExampleFlatNode {
+interface TopicFlatNode {
     expandable: boolean;
     name: string;
     level: number;
+    url: string;
 }
 
 function isValid(file: File): boolean {
@@ -58,12 +25,13 @@ function isValid(file: File): boolean {
     }
     return true;
 }
+
 @Component({
     selector: 'app-config',
     templateUrl: './config.component.html',
     styleUrls: ['./config.component.scss']
 })
-export class ConfigComponent {
+export class ConfigComponent implements OnInit {
 
     dropMessage = 'Drop OPML file here';
     filename: string | undefined;
@@ -71,19 +39,20 @@ export class ConfigComponent {
 
     private file: File | null = null;
 
-    private _transformer = (node: FoodNode, level: number) => {
+    nodeTransformer = (node: TopicNode, level: number) => {
         return {
-            expandable: !!node.children && node.children.length > 0,
+            expandable: !!node.channels && node.channels.length > 0,
             name: node.name,
             level: level,
+            url: node.xmlUrl ?? 'None'
         };
     }
-
-    treeControl = new FlatTreeControl<ExampleFlatNode>(
+    
+    treeControl = new FlatTreeControl<TopicFlatNode>(
         node => node.level, node => node.expandable);
 
     treeFlattener = new MatTreeFlattener(
-        this._transformer, node => node.level, node => node.expandable, node => node.children);
+        this.nodeTransformer, node => node.level, node => node.expandable, node => node.channels);
 
     dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
@@ -113,14 +82,16 @@ export class ConfigComponent {
         }
     }
 
-    constructor(private topicService: TopicService) {
-        this.dataSource.data = TREE_DATA;
+    constructor(private topicService: TopicService) { }
+
+    ngOnInit(): void {
+        // TODO load existing topics
+        // this.dataSource.data = 
     }
 
-    hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
+    hasChild = (_: number, node: TopicFlatNode) => node.expandable;
 
     onFileSelected(event: any) {
-        console.log('event', event)
         this.handleFile(event.target.files[0]);
     }
 
@@ -134,8 +105,8 @@ export class ConfigComponent {
 
             if (topics) {
                 console.log(topics)
-                // TODO
-                //this.topicService.saveTopics(topics);
+                this.dataSource.data = topics;
+                this.topicService.saveTopics(topics);
             }
         }
     }

@@ -2,7 +2,7 @@ import { Channel, Topic } from "./topic.service";
 
 function getChannel(el: Element): Channel {
     return {
-        title: el.getAttribute('title') ?? 'Unknown',
+        name: el.getAttribute('title') ?? 'Unknown',
         htmlUrl: el.getAttribute('htmlUrl') ?? 'Unknown',
         xmlUrl: el.getAttribute('xmlUrl') ?? 'Unknown'
     }

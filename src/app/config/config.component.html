@@ -18,7 +18,7 @@
         <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
             <!-- use a disabled button to provide padding for tree leaf -->
             <button mat-icon-button disabled></button>
-            {{node.name}}
+            <a href="{{node.url}}" target="_blank" rel="noopener noreferrer">{{node.name}}</a>
         </mat-tree-node>
         <!-- This is the tree node template for expandable nodes -->
         <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
