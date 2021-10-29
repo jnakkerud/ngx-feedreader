@@ -87,6 +87,11 @@ export class TopicService {
         this.topicsStorage.put(topics);        
     }
 
+    public hasTopics(): boolean {
+        const topics = this.topicsStorage.get();
+        return topics?.length > 0;  
+    }
+
     private getConfigFromUrl(url: string): Observable<any> {
         return this.httpClient.get(url, { responseType: 'text' });
     }

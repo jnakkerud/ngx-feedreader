@@ -85,8 +85,11 @@ export class ConfigComponent implements OnInit {
     constructor(private topicService: TopicService) { }
 
     ngOnInit(): void {
-        // TODO load existing topics
-        // this.dataSource.data = 
+        if (this.topicService.hasTopics()) {
+            this.topicService.getTopics().then(topics => {
+                this.dataSource.data = topics;
+            });
+        }
     }
 
     hasChild = (_: number, node: TopicFlatNode) => node.expandable;
