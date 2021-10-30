@@ -19,6 +19,7 @@ export class ChannelDetailComponent {
     }
 
     loadFeed(channel: Channel) {
+        this.feedItems = undefined;
         this.feedService.loadFeeds([channel]).then(data => {
             this.feedItems = data;
         });

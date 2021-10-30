@@ -69,3 +69,10 @@
 .flex-spacer {
     flex-grow: 1;
 }
+
+.loading-container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

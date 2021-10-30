@@ -6,10 +6,11 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatFormFieldModule } from '@angular/material/form-field'; // TODO remove
-import { MatSelectModule } from '@angular/material/select'; // TODO remove
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
 import { MatTreeModule } from '@angular/material/tree';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 const modules: any[] = [
     MatSidenavModule,
@@ -21,7 +22,8 @@ const modules: any[] = [
     MatFormFieldModule,
     MatSelectModule,
     CdkAccordionModule,
-    MatTreeModule
+    MatTreeModule,
+    MatProgressSpinnerModule
 ];
 
 @NgModule({
