@@ -15,6 +15,7 @@ export class EvictionService {
     
     public async markAndEvict(feedItems: FeedStoreItem[] | undefined) {
         if (feedItems) {
+            console.log('marking to evict', feedItems);
             await this.feedStorage.bulkUpdate(feedItems.map(item => {
                 item.markedAsRead = true;
                 return item;

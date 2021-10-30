@@ -15,13 +15,20 @@ export interface FilterBy {
 
 export type IndexFilterName = 'topicName' | 'channelName' | 'saved';
 
-function filter(item: any, filterBy: FilterBy[]): boolean  {
-    for (const f of filterBy) {
-        if (item[f.filterName] !== f.value) {
-            return false;
+export interface FilterFn {
+    (cursor: IDBCursorWithValue): boolean;
+}
+
+export function filter(filterBy: FilterBy[]): FilterFn {
+    return function(cursor: IDBCursorWithValue): boolean {
+        const item = cursor.value;
+        for (const f of filterBy) {
+            if (item[f.filterName] !== f.value) {
+                return false;
+            }
         }
+        return true;    
     }
-    return true;
 }
 
 const DB_NAME = 'ngxFeeds';
@@ -41,7 +48,7 @@ export class FeedStorageService {
         this.createObjectStore();
     }
     
-    public getItems(filterBy: FilterBy[], limit: number = Number.MAX_SAFE_INTEGER): Promise<FeedStoreItem[]> {
+    public getItems(filter: FilterFn, limit: number = Number.MAX_SAFE_INTEGER): Promise<FeedStoreItem[]> {
         const data: FeedStoreItem[] = [];
         return new Promise<FeedStoreItem[]>((resolve, reject) => {
             this.openDatabase().then(db => {
@@ -51,7 +58,7 @@ export class FeedStorageService {
                     const cursor: IDBCursorWithValue = (event.target as IDBRequest<IDBCursorWithValue>).result;
                     if (cursor) {
                         // filter
-                        if (filter(cursor.value, filterBy)) {
+                        if (filter(cursor)) {
                             data.push(cursor.value);
                         }
                         if (data.length < limit) {

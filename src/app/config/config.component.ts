@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { Component, HostListener, NgModule, OnInit } from '@angular/core';
 import { MatTreeFlattener, MatTreeFlatDataSource } from '@angular/material/tree';
 import { RouterModule } from '@angular/router';
+import { from } from 'rxjs';
+import { map, mergeAll, mergeMap, toArray } from 'rxjs/operators';
+import { FeedService } from '../core/feed-service/feed.service';
 import { TopicService } from '../core/topic-service/topic.service';
 import { MaterialModule } from '../material.module';
 interface TopicNode {
@@ -82,7 +85,7 @@ export class ConfigComponent implements OnInit {
         }
     }
 
-    constructor(private topicService: TopicService) { }
+    constructor(private topicService: TopicService, private feedService: FeedService) { }
 
     ngOnInit(): void {
         if (this.topicService.hasTopics()) {
@@ -110,10 +113,20 @@ export class ConfigComponent implements OnInit {
                 console.log(topics)
                 this.dataSource.data = topics;
                 this.topicService.saveTopics(topics);
+                this.syncChannels();
             }
         }
     }
 
+    syncChannels(): void {
+        // flatten topics to channel name only
+        from(this.topicService.getTopics()).pipe(
+            mergeAll(),
+            mergeMap(val => from(val.channels ?? [])),
+            map(channel => {return channel.name}),
+            toArray()
+        ).subscribe(result => this.feedService.syncFeeds(result));
+    }
 }
 
 @NgModule({
