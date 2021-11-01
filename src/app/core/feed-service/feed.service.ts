@@ -36,7 +36,7 @@ export class FeedService {
         return new Promise<Feed>(resolve => {
             this.httpClient.get<string>(`${proxyConfig.proxy}/${channel.xmlUrl}`, httpOptions)
                 .subscribe(response => {
-                    let feed = this.feedReader.read(response);
+                    let feed = this.feedReader.read(response, channel.type === 'atom');
                     feed.title = channel.name;
                     resolve(feed); 
                 },

@@ -3,6 +3,7 @@ import { Channel, Topic } from "./topic.service";
 function getChannel(el: Element): Channel {
     return {
         name: el.getAttribute('title') ?? 'Unknown',
+        type: el.getAttribute('type') ?? 'rss',
         htmlUrl: el.getAttribute('htmlUrl') ?? 'Unknown',
         xmlUrl: el.getAttribute('xmlUrl') ?? 'Unknown'
     }

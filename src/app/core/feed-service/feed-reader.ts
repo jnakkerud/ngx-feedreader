@@ -71,7 +71,7 @@ export class FeedReader {
             const i = item.querySelector.bind(item);
 
             const elLink = i('link');
-            const linkToArticle = (elLink?.textContent ?? elLink?.getAttribute('href')) ?? 'N/A';
+            const linkToArticle = (elLink?.getAttribute('href')) ?? 'N/A';
 
             result.items.push({
                 title: this.checkTagItem(i, 'title'),

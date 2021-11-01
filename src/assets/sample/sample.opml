@@ -23,10 +23,11 @@
             <outline type="rss" text="Zermatt" title="Zermatt" xmlUrl="https://www.google.com/alerts/feeds/05173895962631213926/1290397037354029896"/>
             <outline type="rss" text="InTheSnow" title="InTheSnow" xmlUrl="https://www.inthesnow.com/feed/" htmlUrl="https://www.inthesnow.com"/>
             <outline type="rss" text="PlanetSKI" title="PlanetSKI" xmlUrl="https://planetski.eu/feed/" htmlUrl="https://planetski.eu"/>
+            <outline type="rss" text="Zermatt News" title="Zermatt News" xmlUrl="https://www.zermatt.ch/en/rss/feed/news" htmlUrl="https://www.zermatt.ch/en"/>
         </outline>
         <outline type="rss" text="tablehopper" title="tablehopper" xmlUrl="http://feeds.feedburner.com/Tablehopper" htmlUrl="http://www.tablehopper.com/"/>
         <outline type="rss" text="Commonwealth Club Radio Program" title="Commonwealth Club Radio Program" xmlUrl="http://audio.commonwealthclub.org/audio/podcast/weekly.xml" htmlUrl="http://www.commonwealthclub.org"/>
-        <outline type="rss" text="SocketSite™" title="SocketSite™" xmlUrl="http://www.socketsite.com/atom.xml" htmlUrl="https://socketsite.com"/>
+        <outline type="atom" text="SocketSite™" title="SocketSite™" xmlUrl="https://socketsite.com/feed/atom" htmlUrl="https://socketsite.com"/>
         <outline type="rss" text="Radio Open Source with Christopher Lydon" title="Radio Open Source with Christopher Lydon" xmlUrl="http://www.radioopensource.org/feed/" htmlUrl="https://radioopensource.org"/>
         <outline type="rss" text="O'Reilly Radar - Insight, analysis, and research about emerging technologies." title="O'Reilly Radar - Insight, analysis, and research about emerging technologies." xmlUrl="http://feeds.feedburner.com/oreilly/radar/atom" htmlUrl="https://www.oreilly.com/radar"/>
         <outline type="rss" text="Techmeme" title="Techmeme" xmlUrl="http://www.techmeme.com/index.xml" htmlUrl="http://www.techmeme.com/"/>
