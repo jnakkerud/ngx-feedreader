@@ -8,7 +8,7 @@ import { MaterialModule } from '../material.module';
 import { ChannelNavBarComponent } from './channel-nav-bar/channel-nav-bar.component';
 import { SavedDetailComponent } from './saved/saved-detail.component';
 import { FeedsComponent } from './feeds/feeds.component';
-
+import { HomeTopicComponent } from './home/home-topic.component';
 @NgModule({
     imports: [
         CommonModule,
@@ -19,11 +19,13 @@ import { FeedsComponent } from './feeds/feeds.component';
         ChannelDetailComponent, 
         ChannelNavBarComponent,
         FeedsComponent,
+        HomeTopicComponent,
         SavedDetailComponent],
     declarations: [TopicComponent, 
         ChannelDetailComponent, 
         ChannelNavBarComponent,
         FeedsComponent,
+        HomeTopicComponent,
         SavedDetailComponent],
   })
 export class TopicModule {}
