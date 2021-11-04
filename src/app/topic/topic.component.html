@@ -17,7 +17,7 @@
             <mat-nav-list>
                 <a mat-list-item [routerLink]="['/topic/', 'saved-for-later']"> Saved </a>
                 <mat-divider></mat-divider>
-                <a mat-list-item *ngFor="let topic of (topics | async)" [routerLink]="['/topic/', topic.name]">
+                <a mat-list-item *ngFor="let topic of (topics | async)" routerLinkActive="active-link" [routerLink]="['/topic/', topic.name]">
                     {{topic.name}}
                 </a>
             </mat-nav-list>

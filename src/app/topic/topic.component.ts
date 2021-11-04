@@ -17,7 +17,6 @@ export class TopicComponent {
     @ViewChild(MatSidenav) sidenav!: MatSidenav;
     
     topics: Promise<Topic[]>;
-    selectedTopic?: Topic;
 
     isExtraScreenSmall: Observable<boolean>;
     isScreenSmall: Observable<boolean>;
