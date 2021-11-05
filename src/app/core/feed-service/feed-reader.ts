@@ -1,6 +1,6 @@
 import { Feed } from "./feed.service";
 
-function stripTags(str: string): string {
+export function stripTags(str: string): string {
     return str.replace(/(<([^>]+)>)/ig, "");
 }
 
@@ -50,7 +50,7 @@ export class FeedReader {
             result.items.push({
                 title: this.checkTagItem(i, 'title'),
                 link: textContent(i('link')),
-                description: this.checkTagItem(i, 'description'),
+                description: this.checkTagItemRaw(i, 'description'),
                 pubDate: toDate(dateEl)
             });
         });
@@ -76,7 +76,7 @@ export class FeedReader {
             result.items.push({
                 title: this.checkTagItem(i, 'title'),
                 link: linkToArticle,
-                description: this.checkTagItem(i, 'summary'),
+                description: this.checkTagItemRaw(i, 'summary'),
                 pubDate: toDate(i('updated')),
             });
 
@@ -87,6 +87,10 @@ export class FeedReader {
 
     private checkTagItem(i: any, tag: string): string {
         return stripTagsAndCData(textContent(i(tag)));
+    }
+
+    private checkTagItemRaw(i: any, tag: string): string {
+        return stripCDataTag(textContent(i(tag)));
     }
 
     private checkTag(doc: Document, tag: string): string {

@@ -9,6 +9,7 @@ import { ChannelNavBarComponent } from './channel-nav-bar/channel-nav-bar.compon
 import { SavedDetailComponent } from './saved/saved-detail.component';
 import { FeedsComponent } from './feeds/feeds.component';
 import { HomeTopicComponent } from './home/home-topic.component';
+import { StripTagsPipe } from './feeds/strip-tags.pipe';
 @NgModule({
     imports: [
         CommonModule,
@@ -20,12 +21,14 @@ import { HomeTopicComponent } from './home/home-topic.component';
         ChannelNavBarComponent,
         FeedsComponent,
         HomeTopicComponent,
+        StripTagsPipe,
         SavedDetailComponent],
     declarations: [TopicComponent, 
         ChannelDetailComponent, 
         ChannelNavBarComponent,
         FeedsComponent,
         HomeTopicComponent,
+        StripTagsPipe,
         SavedDetailComponent],
   })
 export class TopicModule {}

@@ -1,11 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { FeedStoreItem } from 'src/app/core/feed-service/feed-storage.service';
 import { FeedService } from 'src/app/core/feed-service/feed.service';
 
 @Component({
     selector: 'app-feeds',
     templateUrl: 'feeds.component.html',
-    styleUrls: ['./feeds.component.scss'],    
+    styleUrls: ['./feeds.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 export class FeedsComponent {
 
