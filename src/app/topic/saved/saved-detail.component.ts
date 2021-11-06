@@ -8,7 +8,6 @@ import { FeedService } from 'src/app/core/feed-service/feed.service';
     templateUrl: 'saved-detail.component.html',
     styleUrls: ['./saved-detail.component.scss']    
 })
-
 export class SavedDetailComponent implements OnInit {
 
     feedItems?: FeedStoreItem[]; 

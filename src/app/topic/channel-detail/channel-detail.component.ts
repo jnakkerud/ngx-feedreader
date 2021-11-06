@@ -29,4 +29,8 @@ export class ChannelDetailComponent {
         this.evictionService.markAndEvict(this.feedItems);
         this.feedItems = [];
     }
+
+    hasFeedItems(): boolean {
+        return Array.isArray(this.feedItems) && this.feedItems.length > 0;
+    }
 }

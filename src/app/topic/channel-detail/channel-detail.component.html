@@ -4,9 +4,15 @@
         <app-feeds [feedItems]="feedItems"></app-feeds>
     </div>
     <div class="feed-footer mat-elevation-z4">
-        <button mat-button (click)="navBar.nextChannel()">Next Feed</button>
+        <button mat-button (click)="navBar.nextChannel()">
+            <mat-icon>navigate_next</mat-icon>
+            Next Feed
+        </button>
         <div class="flex-spacer"></div>
-        <button mat-button (click)="markAllRead()">Mark All As Read</button>
+        <button *ngIf="hasFeedItems()" mat-button (click)="markAllRead()">
+            <mat-icon>done</mat-icon>
+            Mark All As Read
+        </button>
     </div>
 </div>
 <ng-template #showLoading>
