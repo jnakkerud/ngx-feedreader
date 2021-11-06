@@ -102,13 +102,7 @@ export class FeedService {
             {
                 filterName: 'saved',
                 value: true
-            }, 
-            {
-                filterName: 'markedAsRead',
-                value: false
-
-            }
-        ]    
+            }        ]    
         return this.feedStorageService.getItems(filter(filterBy));
     }
 

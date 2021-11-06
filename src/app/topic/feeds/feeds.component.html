@@ -8,8 +8,8 @@
                 </div>
                 <div class="feed-item clickable" (click)="filterOnChannel(item)">{{item.channelName}}</div>
                 <div class="feed-item feed-item-center feed-content clickable" (click)="accordionItem.toggle()">
-                    <span class="feed-title c-gap">{{item.title}}</span>
-                    <div class="c-gap feed-comment" [innerHtml]="item.description | stripTags"></div>
+                    <span [ngClass]="{'feed-title c-gap': true, 'feed-lighter': item.markedAsRead}">{{item.title}}</span>
+                    <div class="c-gap feed-lighter" [innerHtml]="item.description | stripTags"></div>
                 </div>
                 <div class="feed-item">
                     {{item.pubDate | date:'shortDate'}}
