@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Channel } from '../topic-service/topic.service';
 import { FeedReader } from './feed-reader';
 import { FeedStorageService, FeedStoreItem, filter, FilterBy, FilterFn } from './feed-storage.service';
@@ -15,7 +15,7 @@ export interface FeedItem {
 
 export interface Feed {
     title: string;
-    link: string;
+    link?: string;
     description?: string;
     image?: string;
     items: FeedItem[];
@@ -25,6 +25,7 @@ const httpOptions: Object = {
     headers: new HttpHeaders(proxyConfig.headers),
     responseType: 'text'
 };
+
 @Injectable({providedIn: 'root'})
 export class FeedService {
 
@@ -41,7 +42,8 @@ export class FeedService {
                     resolve(feed); 
                 },
                 error => {
-                    console.log(error);
+                    console.log('Error loading feed:', error.message);
+                    resolve({title: channel.name, items: []});
                 }
             );
         });
