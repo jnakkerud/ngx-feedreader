@@ -70,6 +70,10 @@ export class FeedStorageService {
                         resolve(data);
                     }
                 };
+                request.onerror = () => {
+                    console.log('Error getting items', request.error);
+                    resolve(data);
+                };
             }).catch((reason) => reject(reason));
         });
     }
@@ -84,7 +88,10 @@ export class FeedStorageService {
                     const updateRequest = objectStore.put(data);
                     updateRequest.onsuccess = () => {
                         resolve(data);
-                    }                    
+                    }
+                    updateRequest.onerror = () => {
+                        reject(updateRequest.error);
+                    };               
                 };
             }).catch((reason) => reject(reason));
         });
@@ -99,7 +106,9 @@ export class FeedStorageService {
                 transaction.oncomplete = () => {
                     resolve(updateItems);
                 };
-
+                transaction.onerror = () => {
+                    reject(transaction.error);
+                };
             }).catch((reason) => reject(reason));
         });
     }
@@ -121,19 +130,26 @@ export class FeedStorageService {
                         resolve(true);
                     }
                 };
+                request.onerror = () => {
+                    reject(request.error);
+                };                
             }).catch((reason) => reject(reason));
         });
     }
 
     public add(items: FeedStoreItem[]): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
-            this.openDatabase().then(db => {
-                console.log('add items', items.length);
+            this.openDatabase().then(db => {                
                 const transaction = this.createTransaction(db);
                 const objectStore = transaction.objectStore(STORE_NAME);
                 items.forEach(item => objectStore.add(item));
                 transaction.oncomplete = () => {
+                    console.log('Success adding items', items.length);
                     resolve(true);
+                };
+                transaction.onerror = () => {
+                    console.log('Error adding items', transaction.error);
+                    resolve(false);
                 };
             }).catch((reason) => reject(reason));
         });
