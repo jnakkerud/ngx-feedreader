@@ -148,6 +148,7 @@ export class FeedStorageService {
                     resolve(true);
                 };
                 transaction.onerror = () => {
+                    // Note that in rare cases links can be duplicate
                     console.log('Error adding items', transaction.error);
                     resolve(false);
                 };
@@ -175,6 +176,7 @@ export class FeedStorageService {
         request.onupgradeneeded = (event: IDBVersionChangeEvent) => {
             const database: IDBDatabase = (event.target as any).result;
 
+            // The link should be unique but sometimes is not if a provider re-publishes a feed
             const objectStore = database.createObjectStore(STORE_NAME, { keyPath: 'link' });
 
             objectStore.createIndex('title', 'title', { unique: false });
