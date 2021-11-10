@@ -1,27 +1,48 @@
-# NgxFeedreader
+# Ngx FeedReader
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.4.
+Simple RSS and Atom feed reader.  
 
-## Development server
+* Runs as a single page web application: No back end
+* Uses [OPML](http://opml.org/) to define which feeds are fetched
+* Request for a feed is made via a proxy to avoid CORS issues
+* Stores Feed articles in [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Getting started
 
-## Code scaffolding
+### Prerequisites
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+* Latest [Node.js](https://www.nodejs.org/) is installed.
+* Proxy file created. See the end of this document
 
-## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+**1. Install Angular CLI**:
+```
+npm install -g @angular/cli
+```
+**2. Run**:
+```
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`
+```
 
-## Running unit tests
+## Technology
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+* Angular
+* Angular Material
+* IndexedDB
 
-## Running end-to-end tests
+## Proxy Configuration
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Create a `/src/app/proxy-config.ts` file
 
-## Further help
+In the file, specify the proxy server and any header information. For example:
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+```
+export const proxyConfig = {
+    proxy: 'https://your.proxy.com',
+    headers: {
+        'your-api-key': 'key'
+    }
+};
+```
+
+Note that the feed url will be appended to the end of the proxy url.  

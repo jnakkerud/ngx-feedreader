@@ -25,8 +25,6 @@ export class FeedsComponent {
         })
     }
 
-    // TODO handle read for later feeds
-    // OnDestroy to delete the feeds
     onOpenFeedItem(feedItem: FeedStoreItem) {
         feedItem.markedAsRead = true;
         this.feedService.updateFeed(feedItem).then(i => {

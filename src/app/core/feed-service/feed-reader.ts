@@ -22,8 +22,6 @@ function toDate(el: Element | null): Date {
     return new Date(textContent(el));
 }
 
-// TODO RFC 3339 date handling ?
-
 export class FeedReader {
 
     DOM_PARSER = new DOMParser().parseFromString.bind(new DOMParser());
