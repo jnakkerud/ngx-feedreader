@@ -41,30 +41,6 @@
     cursor: pointer;
 }
 
-.link {
-    text-decoration: none;
-    color: white;
-}
-
-.link:hover {
-    text-decoration: underline;
-}
-
-.center {
-    display: flex;
-    justify-content: center; 
-    align-items: center;
-    flex-direction: column; 
-}
-
-.content {
-    padding: 24px;
-}
-
-.article-expanded {
-    background: #424242;
-}
-
 .feed-footer {
     display: flex;
     margin: 24px;
@@ -72,8 +48,4 @@
 
 .flex-spacer {
     flex-grow: 1;
-}
-
-.content a, a:link, a:visited {
-    color: white;
 }

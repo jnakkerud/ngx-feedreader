@@ -11,6 +11,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { PortalModule } from '@angular/cdk/portal';
 
 const modules: any[] = [
     MatSidenavModule,
@@ -23,7 +24,8 @@ const modules: any[] = [
     MatSelectModule,
     CdkAccordionModule,
     MatTreeModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    PortalModule
 ];
 
 @NgModule({

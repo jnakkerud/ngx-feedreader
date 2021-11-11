@@ -1,0 +1,12 @@
+<article class="article-container">
+    <ng-template [cdkPortalOutlet]="templatePortal"></ng-template>
+    <ng-template #templatePortalContent>
+        <header class="article-center">
+            <h2><a class="article-link" target="_blank" href="{{feedItem?.link}}" rel="bookmark">{{feedItem?.title}}</a>
+            </h2>
+            <time datetime="item.pubDate">{{feedItem?.pubDate | date: 'full'}}</time>
+        </header>
+        <div class="article-content" [innerHtml]="feedItem?.description">
+        </div>
+    </ng-template>
+</article>

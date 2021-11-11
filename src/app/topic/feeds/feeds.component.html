@@ -2,7 +2,7 @@
     <cdk-accordion class="example-accordion">
         <cdk-accordion-item *ngFor="let item of feedItems" #accordionItem="cdkAccordionItem"
             (opened)="onOpenFeedItem(item)">
-            <article class="feed-row">
+            <div class="feed-row">
                 <div class="feed-item clickable" (click)="updateSaved(item, item.saved = !item.saved)">
                     <mat-icon>{{item.saved ? 'bookmark' : 'bookmark_border'}}</mat-icon>
                 </div>
@@ -14,18 +14,8 @@
                 <div class="feed-item">
                     {{item.pubDate | date:'shortDate'}}
                 </div>
-            </article>
-            <div [style.display]="accordionItem.expanded ? '' : 'none'">
-                <article class="article-expanded">
-                    <header class="center">
-                        <h2><a class="link" target="_blank" href="{{item.link}}" rel="bookmark">{{item.title}}</a>
-                        </h2>
-                        <time datetime="item.pubDate">{{item.pubDate | date: 'full'}}</time>
-                    </header>
-                    <div class="content" [innerHtml]="item.description">
-                    </div>
-                </article>
             </div>
+            <feed-article [expanded]="accordionItem.expanded" [feedItem]="item"></feed-article>
         </cdk-accordion-item>
     </cdk-accordion>
 </div>

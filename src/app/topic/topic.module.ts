@@ -10,6 +10,7 @@ import { SavedDetailComponent } from './saved/saved-detail.component';
 import { FeedsComponent } from './feeds/feeds.component';
 import { HomeTopicComponent } from './home/home-topic.component';
 import { StripTagsPipe } from './feeds/strip-tags.pipe';
+import { FeedArticleComponent } from './feed-article/feed-article.component';
 @NgModule({
     imports: [
         CommonModule,
@@ -22,6 +23,7 @@ import { StripTagsPipe } from './feeds/strip-tags.pipe';
         FeedsComponent,
         HomeTopicComponent,
         StripTagsPipe,
+        FeedArticleComponent,
         SavedDetailComponent],
     declarations: [TopicComponent, 
         ChannelDetailComponent, 
@@ -29,6 +31,7 @@ import { StripTagsPipe } from './feeds/strip-tags.pipe';
         FeedsComponent,
         HomeTopicComponent,
         StripTagsPipe,
+        FeedArticleComponent,
         SavedDetailComponent],
   })
 export class TopicModule {}

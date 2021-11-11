@@ -1,0 +1,27 @@
+.article-container {
+    background: #424242;
+}
+
+.article-center {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    flex-direction: column; 
+}
+
+.article-link {
+    text-decoration: none;
+    color: white;
+}
+
+.article-link:hover {
+    text-decoration: underline;
+}
+
+.article-content {
+    padding: 24px;
+}
+
+.article-content a, a:link, a:visited {
+    color: white;
+}
