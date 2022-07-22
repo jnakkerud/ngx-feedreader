@@ -1,5 +1,5 @@
 <div class="nav-bar-container">
-    <span class="nav-bar-item nav-bar-title">{{topic?.name}}</span>
+    <span class="nav-bar-item nav-bar-title">{{topic.name}}</span>
     <span class="nav-bar-item nav-bar-title">/</span>
     <mat-form-field *ngIf="selected"class="nav-bar-item">
         <mat-select (selectionChange)="onSelectionChange()" [(value)]="selected">
