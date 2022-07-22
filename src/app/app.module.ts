@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 import { TopicModule } from './topic/topic.module';
 import { ConfigModule } from './config/config.component';
+import { ResetModule } from './reset/reset.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ConfigModule } from './config/config.component';
     HttpClientModule,
     MaterialModule,
     TopicModule,
-    ConfigModule
+    ConfigModule,
+    ResetModule
   ],
   providers: [],
   bootstrap: [AppComponent]
