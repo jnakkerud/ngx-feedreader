@@ -156,6 +156,21 @@ export class FeedStorageService {
         });
     }
 
+    public deleteDb(): Promise<boolean> {
+        return new Promise<boolean>((resolve, reject) => {
+            if (!this.indexedDB) {
+                reject('IndexedDB not available');
+            }
+            const request = this.indexedDB.deleteDatabase(DB_NAME);
+            request.onsuccess = () => {
+                resolve(true);
+            };
+            request.onerror = () => {
+                reject(`IndexedDB error: ${request.error}`);
+            };
+        });        
+    }
+
     private openDatabase(): Promise<IDBDatabase> {
         return new Promise<IDBDatabase>((resolve, reject) => {
             if (!this.indexedDB) {

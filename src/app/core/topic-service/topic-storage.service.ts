@@ -15,4 +15,8 @@ export class TopicStorageService {
     public put(topics: Topic[]): void {
         localStorage.setItem(TOPICS_ID, JSON.stringify(topics));
     }
+
+    public delete(): void {
+        localStorage.removeItem(TOPICS_ID);
+    }
 }

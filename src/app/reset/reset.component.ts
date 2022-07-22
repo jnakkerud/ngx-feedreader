@@ -2,22 +2,25 @@ import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../material.module';
-
+import { TopicStorageService } from '../core/topic-service/topic-storage.service';
+import { FeedStorageService } from '../core/feed-service/feed-storage.service';
 @Component({
     selector: 'app-reset',
     templateUrl: 'reset.component.html'
 })
 export class ResetComponent {
 
-    constructor() { }
+    constructor(private topicStorageService: TopicStorageService, private feedStorageService: FeedStorageService) { }
 
-    resetTopics(): void{         
+    resetTopics(): void {         
     }
 
-    resetDb(): void{         
+    resetDb(): void{      
+        // this.feedStorageService.deleteDb().then(() => console.log('Delete DB done'));           
     }
 
-    resetAll(): void{         
+    resetAll(): void{
+        // redirect to config     
     }
 }
 
