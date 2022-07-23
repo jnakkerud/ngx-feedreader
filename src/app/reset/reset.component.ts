@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MaterialModule } from '../material.module';
 import { TopicStorageService } from '../core/topic-service/topic-storage.service';
 import { FeedStorageService } from '../core/feed-service/feed-storage.service';
@@ -10,18 +10,29 @@ import { FeedStorageService } from '../core/feed-service/feed-storage.service';
 })
 export class ResetComponent {
 
-    constructor(private topicStorageService: TopicStorageService, private feedStorageService: FeedStorageService) { }
+    constructor(
+        private topicStorageService: TopicStorageService, 
+        private feedStorageService: FeedStorageService, 
+        private router: Router) { }
 
-    resetTopics(): void {         
+    resetTopics(): void {
+        this.topicStorageService.delete();
+        this.redirectToConfig();     
     }
 
     resetDb(): void{      
-        // this.feedStorageService.deleteDb().then(() => console.log('Delete DB done'));           
+        this.feedStorageService.rebuildDb().then(() => this.redirectToConfig());       
     }
 
     resetAll(): void{
-        // redirect to config     
+        this.topicStorageService.delete();
+        this.feedStorageService.rebuildDb().then(() => this.redirectToConfig());       
     }
+
+    private redirectToConfig(): void {
+        this.router.navigate(['/config']);
+    }
+
 }
 
 @NgModule({

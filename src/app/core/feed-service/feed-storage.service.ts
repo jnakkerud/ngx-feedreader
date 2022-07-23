@@ -32,7 +32,7 @@ export function filter(filterBy: FilterBy[]): FilterFn {
 }
 
 const DB_NAME = 'ngxFeeds';
-const DB_VERSION = 4;
+const DB_VERSION = 1;
 const STORE_NAME = 'feedItem';
 @Injectable({providedIn: 'root'})
 export class FeedStorageService {
@@ -156,13 +156,14 @@ export class FeedStorageService {
         });
     }
 
-    public deleteDb(): Promise<boolean> {
+    public rebuildDb(): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
             if (!this.indexedDB) {
                 reject('IndexedDB not available');
             }
             const request = this.indexedDB.deleteDatabase(DB_NAME);
             request.onsuccess = () => {
+                this.createObjectStore();
                 resolve(true);
             };
             request.onerror = () => {
