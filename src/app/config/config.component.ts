@@ -40,6 +40,8 @@ export class ConfigComponent implements OnInit {
     filename: string | undefined;
     dragging = false;
 
+    showEditor = false;
+
     private file: File | null = null;
 
     nodeTransformer = (node: TopicNode, level: number) => {
@@ -126,6 +128,14 @@ export class ConfigComponent implements OnInit {
             map(channel => {return channel.name}),
             toArray()
         ).subscribe(result => this.feedService.syncFeeds(result));
+    }
+
+    toggleEditor() {
+        this.showEditor = !this.showEditor;
+    }
+
+    saveTopic(topic: string) {
+        // TODO
     }
 }
 

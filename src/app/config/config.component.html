@@ -13,21 +13,40 @@
         <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file">
         <span class="drop-message">{{dropMessage}}</span>
     </div>
-    <mat-tree class="config-item" [dataSource]="dataSource" [treeControl]="treeControl">
-        <!-- This is the tree node template for leaf nodes -->
-        <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
-            <!-- use a disabled button to provide padding for tree leaf -->
-            <button mat-icon-button disabled></button>
-            <a class="config-item-link" href="{{node.url}}" target="_blank" rel="noopener noreferrer">{{node.name}}</a>
-        </mat-tree-node>
-        <!-- This is the tree node template for expandable nodes -->
-        <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
-            <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
-                <mat-icon class="mat-icon-rtl-mirror">
-                    {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-                </mat-icon>
+    <div class="topic-container">
+        <div class="topic-actions-bar">
+            <button mat-icon-button (click)="toggleEditor()">
+                <mat-icon>add</mat-icon>
             </button>
-            {{node.name}}
-        </mat-tree-node>
-    </mat-tree>
+            <button mat-icon-button>
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>
+        <ng-container *ngIf="showEditor">
+            <mat-form-field appearance="fill">
+                <mat-label>New Topic...</mat-label>
+                <input matInput #itemValue placeholder="Ex. Security">
+            </mat-form-field>
+            <button mat-button (click)="saveTopic(itemValue.value)">Save</button>
+        </ng-container>        
+        <div class="topic-tree-container">
+            <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+                <!-- This is the tree node template for leaf nodes -->
+                <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+                    <!-- use a disabled button to provide padding for tree leaf -->
+                    <button mat-icon-button disabled></button>
+                    <a class="config-item-link" href="{{node.url}}" target="_blank" rel="noopener noreferrer">{{node.name}}</a>
+                </mat-tree-node>
+                <!-- This is the tree node template for expandable nodes -->
+                <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+                    <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
+                        <mat-icon class="mat-icon-rtl-mirror">
+                            {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                        </mat-icon>
+                    </button>
+                    {{node.name}}
+                </mat-tree-node>
+            </mat-tree>
+        </div>
+    </div>
 </div>
