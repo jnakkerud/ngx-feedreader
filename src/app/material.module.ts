@@ -13,6 +13,7 @@ import { MatTreeModule } from '@angular/material/tree';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { PortalModule } from '@angular/cdk/portal';
 import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 const modules: any[] = [
     MatSidenavModule,
@@ -27,7 +28,8 @@ const modules: any[] = [
     MatTreeModule,
     MatProgressSpinnerModule,
     PortalModule,
-    MatInputModule
+    MatInputModule,
+    MatCheckboxModule
 ];
 
 @NgModule({
