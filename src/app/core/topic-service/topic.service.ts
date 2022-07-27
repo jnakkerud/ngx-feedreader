@@ -18,9 +18,11 @@ function getTopicsUrl() {
     }
     return null;
 }
+
+export type FeedType = 'rss' | 'atom' | 'unknown';
 export interface Channel {
     name: string;
-    type: string;
+    type: FeedType
     xmlUrl: string;
     htmlUrl: string
 }

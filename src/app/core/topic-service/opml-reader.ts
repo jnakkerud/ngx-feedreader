@@ -1,11 +1,11 @@
-import { Channel, Topic } from "./topic.service";
+import { Channel, FeedType, Topic } from "./topic.service";
 
 function getChannel(el: Element): Channel {
     return {
-        name: el.getAttribute('title') ?? 'Unknown',
-        type: el.getAttribute('type') ?? 'rss',
-        htmlUrl: el.getAttribute('htmlUrl') ?? 'Unknown',
-        xmlUrl: el.getAttribute('xmlUrl') ?? 'Unknown'
+        name: el.getAttribute('title') ?? 'unknown',
+        type: (el.getAttribute('type') ?? 'unknown') as FeedType,
+        htmlUrl: el.getAttribute('htmlUrl') ?? 'unknown',
+        xmlUrl: el.getAttribute('xmlUrl') ?? 'unknown'
     }
 }
 export class OpmlReader {

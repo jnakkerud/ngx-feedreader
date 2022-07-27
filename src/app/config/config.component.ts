@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 import { BehaviorSubject, from } from 'rxjs';
 import { map, mergeAll, mergeMap, toArray } from 'rxjs/operators';
 import { FeedService } from '../core/feed-service/feed.service';
-import { TopicService } from '../core/topic-service/topic.service';
+import { Topic, TopicService } from '../core/topic-service/topic.service';
 import { MaterialModule } from '../material.module';
 import { TopicRoutingModule } from '../topic/topic-routing.module';
 interface TopicNode {
@@ -79,7 +79,7 @@ export class TopicDataSource {
         return this.data.find(n => n.name === name);
     }
 
-    insertItem(parent: TopicNode, name: string): void {
+    insertChannel(parent: TopicNode, name: string): void {
         if (parent.channels) {
             const newNode = { name: name } as TopicNode;
             parent.channels?.push(newNode);
@@ -87,15 +87,39 @@ export class TopicDataSource {
         }
     }
 
-    updateItem(node: TopicNode, name: string) {
-        // TODO update the url then call the url to get the name from the channel
-        node.name = name;
-        //this.dataChange.next(this.data);
+    // https://hackernoon.com/feed
+    // Atom: https://www.theverge.com/rss/frontpage
+    updateChannel(node: TopicNode, url: string): Promise<TopicNode> {
+        return new Promise<TopicNode>(resolve =>{
+            node.xmlUrl = url;
+            this.feedService.getFeed(
+                {
+                    xmlUrl: url,
+                    name: '',
+                    type: 'unknown', 
+                    htmlUrl: ''
+                }
+            ).then(f => {
+                node.name = f.title;
+                resolve(node);
+                this.topicService.saveTopics(this.data as Topic[]);
+                this.dataChange.next(this.data);                
+            });
+    
+        });
+    }
 
-        // TODO save topics
+    insertTopic(name: string) {
+        const newTopic: TopicNode = {
+            name: name,
+            channels: []
+        } 
+        newTopic.channels?.push({name: ''});
 
-        console.log('updateItem', node)
-    }    
+        this.data.push(newTopic);
+        this.topicService.saveTopics(this.data as Topic[]);
+        this.dataChange.next(this.data);
+    }
 }
 
 @Component({
@@ -195,7 +219,8 @@ export class ConfigComponent {
     }
 
     saveTopic(topic: string) {
-        // TODO
+        this.topicDataSource.insertTopic(topic);
+        this.toggleEditor();
     }
 
     /** -----  tree node handlers ----  */
@@ -281,27 +306,20 @@ export class ConfigComponent {
         this.checkAllParentsSelection(node);
     }   
 
-    /** Select the category so we can insert the new item. */
     addNewItem(node: TopicFlatNode) {
         const parentNode = this.topicDataSource.getNode(node.name);
-        this.topicDataSource.insertItem(parentNode!, '');
+        this.topicDataSource.insertChannel(parentNode!, '');
         this.treeControl.expand(node);
     }
 
     saveNode(node: TopicFlatNode, itemValue: string) {
-        console.log('saveNode', node);
-
         const updateNode = this.editingNodeMap.get(node);
         if (updateNode) {
-            this.topicDataSource.updateItem(updateNode, itemValue);
+            this.topicDataSource.updateChannel(updateNode, itemValue).then(result => {
+                this.editingNodeMap.delete(node);
+            });
         }
-        
-        //const nestedNode = this.flatNodeMap.get(node);
-        //this._database.updateItem(nestedNode!, itemValue);
-
-        // remove from editing node map
     }
-
 }
 
 @NgModule({
