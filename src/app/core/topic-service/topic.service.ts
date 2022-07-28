@@ -19,12 +19,12 @@ function getTopicsUrl() {
     return null;
 }
 
-export type FeedType = 'rss' | 'atom' | 'unknown';
+export type FeedType = 'rss' | 'atom';
 export interface Channel {
     name: string;
-    type: FeedType
     xmlUrl: string;
-    htmlUrl: string
+    type?: FeedType
+    htmlUrl?: string
 }
 export interface Topic {
     name: string;
@@ -87,6 +87,7 @@ export class TopicService {
     }
 
     public saveTopics(topics: Topic[]): void {
+        console.log('saving topics', topics);
         this.topicsStorage.put(topics);        
     }
 

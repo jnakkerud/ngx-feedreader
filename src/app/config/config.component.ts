@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 import { BehaviorSubject, from } from 'rxjs';
 import { map, mergeAll, mergeMap, toArray } from 'rxjs/operators';
 import { FeedService } from '../core/feed-service/feed.service';
-import { Topic, TopicService } from '../core/topic-service/topic.service';
+import { FeedType, Topic, TopicService } from '../core/topic-service/topic.service';
 import { MaterialModule } from '../material.module';
 import { TopicRoutingModule } from '../topic/topic-routing.module';
 interface TopicNode {
@@ -20,6 +20,10 @@ interface TopicFlatNode {
     name: string;
     level: number;
     url: string;
+}
+
+type TopicNodeEx = TopicNode & {
+    type?: FeedType;
 }
 
 function isValid(file: File): boolean {
@@ -81,7 +85,7 @@ export class TopicDataSource {
 
     insertChannel(parent: TopicNode, name: string): void {
         if (parent.channels) {
-            const newNode = { name: name } as TopicNode;
+            const newNode = { name: name } as TopicNodeEx;
             parent.channels?.push(newNode);
             this.dataChange.next(this.data);
         }
@@ -89,18 +93,19 @@ export class TopicDataSource {
 
     // https://hackernoon.com/feed
     // Atom: https://www.theverge.com/rss/frontpage
-    updateChannel(node: TopicNode, url: string): Promise<TopicNode> {
+    updateChannel(node: TopicNodeEx, url: string): Promise<TopicNode> {
         return new Promise<TopicNode>(resolve =>{
             node.xmlUrl = url;
+            // get and parse the feed from the url.  Note that we do not have the name 
+            // or the feed type: (rss or atom).  So rely on the feed service to get this info
             this.feedService.getFeed(
                 {
                     xmlUrl: url,
                     name: '',
-                    type: 'unknown', 
-                    htmlUrl: ''
                 }
             ).then(f => {
                 node.name = f.title;
+                node.type = f.type;
                 resolve(node);
                 this.topicService.saveTopics(this.data as Topic[]);
                 this.dataChange.next(this.data);                

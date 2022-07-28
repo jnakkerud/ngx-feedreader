@@ -1,3 +1,4 @@
+import { FeedType } from "../topic-service/topic.service";
 import { Feed } from "./feed.service";
 
 export function stripTags(str: string): string {
@@ -26,10 +27,22 @@ export class FeedReader {
 
     DOM_PARSER = new DOMParser().parseFromString.bind(new DOMParser());
 
-    public read(xmlString: string, isAtom = false): Feed {
-        return (isAtom === true) ? this.parseFeedAtomFormat(xmlString) : this.parseFeedRss(xmlString);
+    public read(xmlString: string, feedType: FeedType | undefined): Feed {
+        let fType = feedType;
+        if (!fType) {
+            fType = this.getFeedType(xmlString);
+        }
+        return (fType === 'atom') ? this.parseFeedAtomFormat(xmlString) : this.parseFeedRss(xmlString);
     }
     
+    private getFeedType(xmlString: string): FeedType {
+        const doc = this.DOM_PARSER(xmlString, 'text/xml');
+        if (doc.documentElement.localName === 'feed') {
+            return 'atom';
+        }
+        return 'rss';
+    }
+
     private parseFeedRss(xmlString: string): Feed {
         const doc = this.DOM_PARSER(xmlString, 'text/xml');
 
@@ -38,6 +51,7 @@ export class FeedReader {
             link: this.checkTag(doc, 'channel link'),
             description: this.checkTag(doc, 'channel description'),
             image: this.checkTag(doc, 'channel image url'),
+            type: 'rss',
             items: []
         }
 
@@ -62,6 +76,7 @@ export class FeedReader {
         const result: Feed = {
             title: this.checkTag(doc, 'title'),
             link: this.checkTag(doc, 'link'),
+            type: 'atom',
             items: []
         }        
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Channel } from '../topic-service/topic.service';
+import { Channel, FeedType } from '../topic-service/topic.service';
 import { FeedReader } from './feed-reader';
 import { FeedStorageService, FeedStoreItem, filter, FilterBy, FilterFn } from './feed-storage.service';
 import { proxyConfig } from '../../proxy-config';
@@ -18,6 +18,7 @@ export interface Feed {
     link?: string;
     description?: string;
     image?: string;
+    type?: FeedType;
     items: FeedItem[];
 }
 
@@ -37,7 +38,7 @@ export class FeedService {
         return new Promise<Feed>(resolve => {
             this.httpClient.get<string>(`${proxyConfig.proxy}/${channel.xmlUrl}`, httpOptions)
                 .subscribe(response => {
-                    let feed = this.feedReader.read(response, channel.type === 'atom');
+                    let feed = this.feedReader.read(response, channel.type);
                     feed.title = channel.name === '' ? feed.title : channel.name;
                     resolve(feed); 
                 },
