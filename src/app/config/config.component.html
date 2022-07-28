@@ -23,7 +23,7 @@
             </button>
         </div>
         <ng-container *ngIf="showEditor">
-            <mat-form-field appearance="fill">
+            <mat-form-field class="topic-input-field" appearance="fill">
                 <mat-label>New Topic...</mat-label>
                 <input matInput #itemValue placeholder="Ex. Security">
             </mat-form-field>
@@ -42,7 +42,7 @@
 
                 <mat-tree-node *matTreeNodeDef="let node; when: hasNoContent" matTreeNodePadding>
                     <button mat-icon-button disabled></button>
-                    <mat-form-field appearance="fill">
+                    <mat-form-field class="feed-input-field" appearance="fill">
                         <mat-label>New Feed URL...</mat-label>
                         <input matInput #itemValue placeholder="Enter feed URL">
                     </mat-form-field>
