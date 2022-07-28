@@ -228,6 +228,10 @@ export class ConfigComponent {
         this.toggleEditor();
     }
 
+    hasTreeData(): boolean {
+        return (this.treeControl.dataNodes && this.treeControl.dataNodes.length > 0);
+    }
+
     /** -----  tree node handlers ----  */
 
     /* Toggle a leaf to-do item selection. Check all the parents to see if they changed */
