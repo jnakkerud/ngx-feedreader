@@ -15,11 +15,11 @@ interface TopicNode {
     xmlUrl?: string;
     channels?: TopicNode[];
 }
-interface TopicFlatNode {
-    expandable: boolean;
-    name: string;
-    level: number;
-    url: string;
+export class TopicFlatNode {
+    expandable = false;
+    name = '';
+    level = 0;
+    url = '';
 }
 
 type TopicNodeEx = TopicNode & {
@@ -77,10 +77,6 @@ export class TopicDataSource {
             map(channel => {return channel.name}),
             toArray()
         ).subscribe(result => this.feedService.syncFeeds(result));
-    }
-
-    getNode(name: string): TopicNode | undefined {
-        return this.data.find(n => n.name === name);
     }
 
     insertChannel(parent: TopicNode, name: string): void {
@@ -148,7 +144,11 @@ export class ConfigComponent {
 
     checklistSelection = new SelectionModel<TopicFlatNode>(true);
 
-    editingNodeMap = new Map<TopicFlatNode, TopicNode>();
+    /** Map from flat node to nested node. This helps us finding the nested node to be modified */
+    flatNodeMap = new Map<TopicFlatNode, TopicNode>();
+
+    /** Map from nested node to flattened node. This helps us to keep the same object for selection */
+    nestedNodeMap = new Map<TopicNode, TopicFlatNode>();
 
     // Dragover listener
     @HostListener('dragover', ['$event']) onDragOver(evt: any) {
@@ -203,16 +203,16 @@ export class ConfigComponent {
     hasNoContent = (_: number, _nodeData: TopicFlatNode) => _nodeData.name === '';
 
     nodeTransformer = (node: TopicNode, level: number) => {
-        const flatNode =  {
-            expandable: !!node.channels && node.channels.length > 0,
-            name: node.name,
-            level: level,
-            url: node.xmlUrl ?? 'None'
-        } as TopicFlatNode;
-        if (flatNode.name === '') {
-            this.editingNodeMap.set(flatNode, node);
-        }
-        return flatNode;
+        const existingNode = this.nestedNodeMap.get(node);
+        const flatNode =
+          existingNode && existingNode.name === node.name ? existingNode : new TopicFlatNode();
+        flatNode.name = node.name;
+        flatNode.level = level;
+        flatNode.expandable = !!node.channels?.length;
+        flatNode.url = node.xmlUrl ?? 'None'
+        this.flatNodeMap.set(flatNode, node);
+        this.nestedNodeMap.set(node, flatNode);
+        return flatNode;        
     }
 
     onFileSelected(event: any) {
@@ -316,16 +316,16 @@ export class ConfigComponent {
     }   
 
     addNewItem(node: TopicFlatNode) {
-        const parentNode = this.topicDataSource.getNode(node.name);
+        const parentNode = this.flatNodeMap.get(node);
         this.topicDataSource.insertChannel(parentNode!, '');
         this.treeControl.expand(node);
     }
 
     saveNode(node: TopicFlatNode, itemValue: string) {
-        const updateNode = this.editingNodeMap.get(node);
+        const updateNode = this.flatNodeMap.get(node);
         if (updateNode) {
             this.topicDataSource.updateChannel(updateNode, itemValue).then(result => {
-                this.editingNodeMap.delete(node);
+                console.log('saveNode', result);
             });
         }
     }
