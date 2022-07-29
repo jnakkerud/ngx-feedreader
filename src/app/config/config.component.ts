@@ -110,7 +110,7 @@ export class TopicDataSource {
         });
     }
 
-    insertTopic(name: string) {
+    insertTopic(name: string): void {
         const newTopic: TopicNode = {
             name: name,
             channels: []
@@ -120,6 +120,32 @@ export class TopicDataSource {
         this.data.push(newTopic);
         this.topicService.saveTopics(this.data as Topic[]);
         this.dataChange.next(this.data);
+    }
+
+    delete(nodes: Map<TopicNode, TopicNode | null>): void {
+        console.log('deleteNodes', nodes)
+
+        nodes.forEach((parent, node) => {
+            this.deleteNode(node, parent);
+        });
+
+        this.topicService.saveTopics(this.data as Topic[]);
+        this.dataChange.next(this.data);                
+    }
+
+    deleteNode(node: TopicNode, parent: TopicNode | null) {
+        if (parent && parent.channels) {
+            const idx = parent.channels.indexOf(node);
+            if (idx !== -1) {
+                parent.channels.splice(idx, 1);
+            }
+
+        } else {
+            const idx = this.data.indexOf(node);
+            if (idx !== -1) {
+                this.data.splice(idx, 1);
+            }
+        }
     }
 }
 
@@ -215,17 +241,39 @@ export class ConfigComponent {
         return flatNode;        
     }
 
-    onFileSelected(event: any) {
+    onFileSelected(event: any): void {
         this.topicDataSource.loadFromFile(event.target.files[0]);
     }
 
-    toggleEditor() {
+    toggleEditor(): void {
         this.showEditor = !this.showEditor;
     }
 
-    saveTopic(topic: string) {
+    saveTopic(topic: string): void {
         this.topicDataSource.insertTopic(topic);
         this.toggleEditor();
+    }
+
+    deleteSelection(): void {
+        // the result is the node to delete and the parent node
+        const selected = new Map<TopicNode, TopicNode | null>();
+
+        // walk the selected nodes in the tree
+        this.checklistSelection.selected.forEach(n => {
+            // is it the parent
+            if (this.getLevel(n) < 1) {
+                selected.set(this.flatNodeMap.get(n)!, null);
+            } else {
+                // if a child has a selected parent
+                const parent = this.getParentNode(n);
+                if (parent && this.checklistSelection.isSelected(parent)) {
+                    selected.set(this.flatNodeMap.get(parent)!, null);
+                } else {
+                    selected.set(this.flatNodeMap.get(n)!, this.flatNodeMap.get(parent!)!);
+                }
+            }
+        });
+        this.topicDataSource.delete(selected);
     }
 
     hasTreeData(): boolean {
