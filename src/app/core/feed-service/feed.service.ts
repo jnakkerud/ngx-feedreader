@@ -32,6 +32,8 @@ export class FeedService {
 
     private feedReader = new FeedReader();
 
+    private cachedFeeds = new Set<string>();
+
     constructor(private httpClient: HttpClient, private feedStorageService: FeedStorageService, private evictionService: EvictionService) {}
     
     getFeed(channel: Channel): Promise<Feed> {
@@ -70,27 +72,38 @@ export class FeedService {
 
     // TODO handle multiple channels
     public async loadFeeds(channels: Channel[]): Promise<FeedStoreItem[]> {
+        return this.loadFeed(channels[0]);
+    }
+
+    public async loadFeed(channel: Channel): Promise<FeedStoreItem[]> {
         const filterBy: FilterBy[] = [
             {
                 filterName: 'channelName',
-                value: channels[0].name
+                value: channel.name
             }
         ]
-        let storeItems = await this.feedStorageService.getItems(filter(filterBy), 1);
-        const latest = storeItems?.length ? storeItems[0].pubDate : new Date(628021800000); // 1989
 
-        // get feeds via url
-        let feedItems = await this.getFeedItems(channels);
+        // if feed not cached, call feed url
+        if (!this.cachedFeeds.has(channel.xmlUrl)) {
+            let storeItems = await this.feedStorageService.getItems(filter(filterBy), 1);
+            const latest = storeItems?.length ? storeItems[0].pubDate : new Date(628021800000); // 1989
 
-        // save the latest feeds
-        let newItems = feedItems.filter(i => {
-            return i.pubDate.getTime() > latest.getTime();
-        });
+            // get feeds via url
+            let feedItems = await this.getFeedItems([channel]);
 
-        if (newItems?.length) {
-            await this.feedStorageService.add(newItems);
+            // save the latest feeds
+            let newItems = feedItems.filter(i => {
+                return i.pubDate.getTime() > latest.getTime();
+            });
+
+            if (newItems?.length) {
+                await this.feedStorageService.add(newItems);
+            }
         }
     
+        // cached feed
+        this.cachedFeeds.add(channel.xmlUrl);
+
         filterBy.push(
             {
                 filterName: 'markedAsRead',
