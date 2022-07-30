@@ -70,9 +70,14 @@ export class FeedService {
         });
     }
 
-    // TODO handle multiple channels
     public async loadFeeds(channels: Channel[]): Promise<FeedStoreItem[]> {
-        return this.loadFeed(channels[0]);
+        return new Promise<FeedStoreItem[]>(resolve => {
+            const feedSrc = channels.map(c => this.loadFeed(c));
+            Promise.all(feedSrc).then(result => {
+                let items: FeedStoreItem[] = [];
+                resolve(items.concat.apply([], result));
+            });
+        });
     }
 
     public async loadFeed(channel: Channel): Promise<FeedStoreItem[]> {
@@ -130,7 +135,7 @@ export class FeedService {
     // load channels from storage and see if the channel name exists in channelNames array
     // if not, mark for deletion
     public async syncFeeds(channelNames: string[]) {
-        console.log(channelNames);
+        console.log('syncFeeds', channelNames);
 
         const filter: FilterFn = (cursor: IDBCursorWithValue): boolean => {
             const feedItem: FeedStoreItem = cursor.value;

@@ -31,6 +31,7 @@ export class ChannelNavBarComponent implements AfterContentInit {
     initialize() {
         this.channels = this.topic?.channels ?? [];
         this.nextChannel();
+        // TODO async load of remaining channel ?
     }
 
     // User selection
