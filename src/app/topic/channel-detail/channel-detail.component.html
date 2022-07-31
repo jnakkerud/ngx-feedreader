@@ -1,4 +1,4 @@
-<app-channel-nav-bar #navBar (channelChange)="onSelectionChange($event)"></app-channel-nav-bar>
+<app-channel-nav-bar [topic]="(topic | async)!" #navBar (channelChange)="onSelectionChange($event)"></app-channel-nav-bar>
 <div *ngIf="!!feedItems; else showLoading">
     <div class="feed-container">
         <app-feeds [feedItems]="feedItems"></app-feeds>

@@ -4,7 +4,7 @@
     <mat-form-field *ngIf="selected" class="nav-bar-item">
         <mat-select (selectionChange)="onSelectionChange()" [(value)]="selected">
             <mat-select-trigger><span class="nav-bar-title">{{selected.name}}</span></mat-select-trigger>
-            <mat-option *ngFor="let channel of topic?.channels" [value]="channel">
+            <mat-option *ngFor="let channel of channels" [value]="channel">
                 {{channel.name}}
             </mat-option>
         </mat-select>
