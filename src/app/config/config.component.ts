@@ -274,10 +274,15 @@ export class ConfigComponent {
             }
         });
         this.topicDataSource.delete(selected);
+        this.checklistSelection.clear();
     }
 
     hasTreeData(): boolean {
         return (this.treeControl.dataNodes && this.treeControl.dataNodes.length > 0);
+    }
+
+    treeIsSelected(): boolean {
+        return this.checklistSelection.selected.length > 0;
     }
 
     /** -----  tree node handlers ----  */

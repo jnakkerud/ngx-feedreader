@@ -18,7 +18,7 @@
             <button mat-icon-button (click)="toggleEditor()">
                 <mat-icon>add</mat-icon>
             </button>
-            <button mat-icon-button (click)="deleteSelection()">
+            <button mat-icon-button [disabled]="!treeIsSelected()" (click)="deleteSelection()">
                 <mat-icon>delete</mat-icon>
             </button>
         </div>

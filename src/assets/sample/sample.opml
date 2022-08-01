@@ -9,7 +9,7 @@
             <outline type="rss" text="DZone.com Feed" title="DZone.com Feed" xmlUrl="http://feeds.dzone.com/dzone/frontpage" htmlUrl="https://dzone.com"/>
             <outline type="rss" text="DEV Community" title="DEV Community" xmlUrl="https://dev.to/feed" htmlUrl="https://dev.to"/>
             <outline type="rss" text="Hacker News" title="Hacker News" xmlUrl="https://news.ycombinator.com/rss" htmlUrl="https://news.ycombinator.com/"/>
-            <outline type="rss" text="ProgrammableWeb" title="ProgrammableWeb" xmlUrl="http://feedproxy.google.com/ProgrammableWeb" htmlUrl="https://www.programmableweb.com/rss_blog"/>
+            <outline type="rss" text="Hacker Noon" title="Hacker Noon" xmlUrl="https://hackernoon.com/feed" htmlUrl="https://hackernoon.com/"/>
         </outline>
         <outline text="Ski Alerts" title="Ski Alerts">
             <outline type="rss" text="The Tahoe Daily Snow" title="The Tahoe Daily Snow" xmlUrl="http://opensnow.com/dailysnow/tahoe/rss" htmlUrl="https://opensnow.com/dailysnow/tahoe/rss"/>
