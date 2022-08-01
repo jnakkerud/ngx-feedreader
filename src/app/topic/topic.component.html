@@ -15,7 +15,10 @@
         <mat-sidenav #sidenav class="topic-sidenav" [opened]="(isScreenSmall | async) === false"
             [mode]="(isScreenSmall | async) ? 'over' : 'side'">
             <mat-nav-list>
-                <a mat-list-item [routerLink]="['/topic/', 'saved-for-later']"> Saved </a>
+                <a mat-list-item [routerLink]="['/topic/', 'saved-for-later']">
+                    <mat-icon>bookmark</mat-icon>
+                    <span class="icon-list-item">Saved</span>
+                </a>
                 <mat-divider></mat-divider>
                 <a mat-list-item *ngFor="let topic of (topics | async)" routerLinkActive="active-link" [routerLink]="['/topic/', topic.name]">
                     {{topic.name}}
