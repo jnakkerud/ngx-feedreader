@@ -27,9 +27,22 @@ export class ChannelDetailComponent implements OnInit {
     ngOnInit(): void {
         this.topic = this.route.paramMap.pipe(
             switchMap(params => {
-                return this.topicService.getTopic(params.get('topicId')!);
+                const topicResult = this.topicService.getTopic(params.get('topicId')!);
+                // prefetch channels to enable faster loading
+                this.fetchChannels(topicResult);
+                return topicResult;
             })
         );        
+    }
+
+    fetchChannels(topicResult: Promise<Topic>) {
+        topicResult.then(t => {
+            if (t.channels && t.channels.length > 1) {
+                // The first channel will be loaded.
+                // Load the remaining channels to improve performance
+                this.feedService.loadFeeds(t.channels.slice(1)).then();
+            }
+        });
     }
 
     onSelectionChange(channel: Channel) {
