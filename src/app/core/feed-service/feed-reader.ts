@@ -89,7 +89,8 @@ export class FeedReader {
             result.items.push({
                 title: this.checkTagItem(i, 'title'),
                 link: linkToArticle,
-                description: this.checkTagItemRaw(i, 'summary'),
+                // Use content or summary
+                description: doc.querySelector('content') ? this.checkTagItemRaw(i, 'content') : this.checkTagItemRaw(i, 'summary'),
                 pubDate: toDate(i('updated')),
             });
 
