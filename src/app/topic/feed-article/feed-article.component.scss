@@ -2,10 +2,8 @@
     background: #424242;
 }
 
-.article-center {
+.article-header {
     display: flex;
-    justify-content: center; 
-    align-items: center;
     flex-direction: column; 
 }
 
@@ -24,4 +22,13 @@
 
 .article-content a, a:link, a:visited {
     color: white;
+}
+
+.article-title {
+    display: flex;
+    justify-content: space-between;
+}
+
+.article-header-center {
+    align-self: center;
 }
