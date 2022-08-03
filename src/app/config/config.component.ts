@@ -9,7 +9,7 @@ import { map, mergeAll, mergeMap, toArray } from 'rxjs/operators';
 import { FeedService } from '../core/feed-service/feed.service';
 import { FeedType, Topic, TopicService } from '../core/topic-service/topic.service';
 import { MaterialModule } from '../material.module';
-import { TopicRoutingModule } from '../topic/topic-routing.module';
+import { HeaderModule } from '../header/header.component';
 interface TopicNode {
     name: string;
     xmlUrl?: string;
@@ -166,7 +166,7 @@ export class ConfigComponent {
 
     treeFlattener: MatTreeFlattener<TopicNode, TopicFlatNode>;
 
-    dataSource: MatTreeFlatDataSource<TopicRoutingModule, TopicFlatNode>;
+    dataSource: MatTreeFlatDataSource<TopicNode, TopicFlatNode>;
 
     checklistSelection = new SelectionModel<TopicFlatNode>(true);
 
@@ -386,7 +386,7 @@ export class ConfigComponent {
 
 @NgModule({
     imports: [
-        CommonModule, MaterialModule, RouterModule],
+        CommonModule, MaterialModule, RouterModule, HeaderModule],
     exports: [ConfigComponent],
     declarations: [ConfigComponent],
   })

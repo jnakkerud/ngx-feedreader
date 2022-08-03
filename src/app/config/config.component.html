@@ -1,12 +1,4 @@
-<mat-toolbar color="primary" class="topic-toolbar">
-    <a mat-button routerLink="/" aria-label="ngx feed reader">
-        <h1>Ngx FeedReader</h1>
-    </a>
-    <span class="config-toolbar-spacer"></span>
-    <a mat-icon-button routerLink="/config" aria-label="configuration">
-        <mat-icon>settings</mat-icon>
-    </a>
-</mat-toolbar>
+<app-header></app-header>
 <div class="config-container">
     <div class="config-item drop-area" [style.opacity] = "dragging ? 0.6 : 1">
         <button type="button" mat-flat-button color="primary"(click)="fileInput.click()" class="chooser-button" >Choose File</button>
