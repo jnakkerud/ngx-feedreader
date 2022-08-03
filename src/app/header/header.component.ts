@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { ConfigService } from '../core/config-service/config.service';
 import { MaterialModule } from '../material.module';
 
 @Component({
@@ -9,9 +10,15 @@ import { MaterialModule } from '../material.module';
     styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-    constructor() { }
 
-    ngOnInit() { }
+    title: string;
+
+    constructor(private configService: ConfigService) { 
+        this.title = this.configService.config?.title ?? 'Ngx FeedReader';
+    }
+
+    ngOnInit() { 
+    }
 }
 
 @NgModule({

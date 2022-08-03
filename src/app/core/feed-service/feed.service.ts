@@ -3,8 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Channel, FeedType } from '../topic-service/topic.service';
 import { FeedReader } from './feed-reader';
 import { FeedStorageService, FeedStoreItem, filter, FilterBy, FilterFn } from './feed-storage.service';
-import { proxyConfig } from '../../app-config';
 import { EvictionService } from '../eviction-service/eviction.service';
+import { ConfigService } from '../config-service/config.service';
 
 export interface FeedItem {
     title: string;
@@ -22,11 +22,6 @@ export interface Feed {
     items: FeedItem[];
 }
 
-const httpOptions: Object = {
-    headers: new HttpHeaders(proxyConfig.headers),
-    responseType: 'text'
-};
-
 @Injectable({providedIn: 'root'})
 export class FeedService {
 
@@ -34,11 +29,15 @@ export class FeedService {
 
     private cachedFeeds = new Set<string>();
 
-    constructor(private httpClient: HttpClient, private feedStorageService: FeedStorageService, private evictionService: EvictionService) {}
+    constructor(
+        private httpClient: HttpClient, 
+        private feedStorageService: FeedStorageService, 
+        private evictionService: EvictionService,
+        private configService: ConfigService) {}
     
     getFeed(channel: Channel): Promise<Feed> {
         return new Promise<Feed>(resolve => {
-            this.httpClient.get<string>(`${proxyConfig.proxy}/${channel.xmlUrl}`, httpOptions)
+            this.httpClient.get<string>(`${this.configService.proxy}/${channel.xmlUrl}`, this.httpOptions)
                 .subscribe(response => {
                     let feed = this.feedReader.read(response, channel.type);
                     feed.title = channel.name === '' ? feed.title : channel.name;
@@ -50,6 +49,13 @@ export class FeedService {
                 }
             );
         });
+    }
+
+    get httpOptions(): Object {
+        return {
+            headers: new HttpHeaders(this.configService.headers),
+            responseType: 'text'
+        };        
     }
 
     getFeedItems(channels: Channel[]): Promise<FeedStoreItem[]> {
