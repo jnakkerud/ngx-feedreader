@@ -32,7 +32,7 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`
 
 ## Proxy Configuration
 
-Create a `/src/app/proxy-config.ts` file
+Create a `/src/app/app-config.ts` file
 
 In the file, specify the proxy server and any header information. For example:
 

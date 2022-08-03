@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Channel, FeedType } from '../topic-service/topic.service';
 import { FeedReader } from './feed-reader';
 import { FeedStorageService, FeedStoreItem, filter, FilterBy, FilterFn } from './feed-storage.service';
-import { proxyConfig } from '../../proxy-config';
+import { proxyConfig } from '../../app-config';
 import { EvictionService } from '../eviction-service/eviction.service';
 
 export interface FeedItem {
