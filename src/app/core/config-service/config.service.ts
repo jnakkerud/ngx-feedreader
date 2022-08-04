@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { config } from '../../app-config'
 
 interface AppConfig {
     title?: string;
-    useOpmlTitle?: boolean
     proxy?: string;
     headers?: {
         [headerName: `x-${string}`]: string;
@@ -15,16 +15,16 @@ export class ConfigService {
 
     _config: AppConfig;
 
-    constructor() {
+    constructor(private titleService: Title) {
         const defaultConfig: AppConfig = {
-            title: 'Ngx FeedReader',
-            useOpmlTitle: false
+            title: 'Ngx FeedReader'
         }
         this._config = Object.assign(defaultConfig, config);
+        this.titleService.setTitle(this.title);
     }
 
-    get config(): AppConfig {
-        return this._config;
+    get title(): string {
+        return this._config.title!;
     }
 
     get proxy(): string {
